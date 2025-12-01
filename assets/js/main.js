@@ -78,6 +78,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 3.8 Génération de la section Formations (Éducation)
+    const educationContainer = document.getElementById('education-container');
+    if (educationContainer && typeof education !== 'undefined') {
+        education.forEach(edu => {
+            const eduCard = `
+                <div class="relative p-6 bg-slate-950 border border-slate-800 rounded-xl hover:border-green-500/50 transition-all hover:-translate-y-1 group">
+                    <!-- Icône décorative en background -->
+                    <i data-lucide="award" class="absolute top-4 right-4 text-slate-800 w-12 h-12 opacity-20 group-hover:text-green-500/20 group-hover:scale-125 transition-all duration-500"></i>
+                    
+                    <span class="inline-block px-3 py-1 mb-4 text-xs font-mono font-semibold text-green-400 bg-green-500/10 border border-green-500/20 rounded-full">
+                        ${edu.year}
+                    </span>
+                    
+                    <h3 class="text-lg font-bold text-white mb-1 group-hover:text-green-400 transition-colors">
+                        ${edu.degree}
+                    </h3>
+                    
+                    <p class="text-slate-400 text-sm font-medium flex items-center gap-2">
+                        <i data-lucide="school" class="w-3 h-3"></i> ${edu.school}
+                    </p>
+                </div>
+            `;
+            educationContainer.innerHTML += eduCard;
+        });
+    }
+
     // 4. Génération des Projets
     const projectsContainer = document.getElementById('projects-container');
     if (projectsContainer) {

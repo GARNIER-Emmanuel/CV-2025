@@ -81,8 +81,14 @@ const education = [
         degree: "BTS SIO (Option SLAM)",
         school: "Lycée St-John Perse, Pau",
         year: "2023"
+    },
+    {
+        degree: "Bac STI2D",
+        school: "Lycée Saint-Cricq, Pau",
+        year: "2021"
     }
 ];
+
 
 // 5. Projets (Mix CV + Projets Persos)
 // Note : J'ai gardé tes projets persos (Cacgino) car ils sont plus visuels pour un portfolio que des missions confidentielles CGI.
