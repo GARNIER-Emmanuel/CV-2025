@@ -6,21 +6,23 @@ let currentPlanet = 'earth';
 const planets = {
     sun: {
         name: 'Soleil',
-        texture: 'procedural',
+        texture: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/sunmap.jpg',
         type: 'sun',
         radius: 3.0,
         hasSpecular: false
     },
     mercury: {
         name: 'Mercure',
-        texture: 'procedural',
+        texture: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/mercurymap.jpg',
+        bumpMap: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/mercurybump.jpg',
         type: 'mercury',
         radius: 1.0,
         hasSpecular: false
     },
     venus: {
         name: 'Vénus',
-        texture: 'procedural',
+        texture: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/venusmap.jpg',
+        bumpMap: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/venusbump.jpg',
         type: 'venus',
         radius: 1.4,
         hasSpecular: false
@@ -35,28 +37,30 @@ const planets = {
     },
     moon: {
         name: 'Lune',
-        texture: 'procedural',
+        texture: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/moonmap1k.jpg',
+        bumpMap: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/moonbump1k.jpg',
         type: 'moon',
         radius: 0.9,
         hasSpecular: false
     },
     mars: {
         name: 'Mars',
-        texture: 'procedural',
+        texture: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/marsmap1k.jpg',
+        bumpMap: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/marsbump1k.jpg',
         type: 'mars',
         radius: 1.2,
         hasSpecular: false
     },
     jupiter: {
         name: 'Jupiter',
-        texture: 'procedural',
+        texture: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/jupitermap.jpg',
         type: 'jupiter',
         radius: 2.5,
         hasSpecular: false
     },
     saturn: {
         name: 'Saturne',
-        texture: 'procedural',
+        texture: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/saturnmap.jpg',
         type: 'saturn',
         radius: 2.2,
         hasRings: true,
@@ -64,7 +68,7 @@ const planets = {
     },
     uranus: {
         name: 'Uranus',
-        texture: 'procedural',
+        texture: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/uranusmap.jpg',
         type: 'uranus',
         radius: 1.8,
         hasRings: true,
@@ -72,7 +76,7 @@ const planets = {
     },
     neptune: {
         name: 'Neptune',
-        texture: 'procedural',
+        texture: 'https://raw.githubusercontent.com/jeromeetienne/threex.planets/master/images/neptunemap.jpg',
         type: 'neptune',
         radius: 1.7,
         hasSpecular: false
@@ -120,15 +124,28 @@ function switchPlanet(planetName) {
             // onError
             function (error) {
                 console.error('❌ Erreur de chargement de texture pour', config.name, error);
+                console.log('⚠️ Utilisation de la texture procédurale de secours');
+
+                // Fallback : Texture procédurale
+                const proceduralTexture = createPlanetTexture(config.type);
+                window.earthMaterial.map = proceduralTexture;
+                window.earthMaterial.bumpMap = null;
+                window.earthMaterial.specularMap = null;
+                window.earthMaterial.color = new THREE.Color(0xffffff);
+                window.earthMaterial.needsUpdate = true;
             }
         );
 
         // Mettre à jour le matériau immédiatement avec la texture en cours de chargement
+        // Note : Si le chargement échoue, le onError écrasera ceci
         window.earthMaterial.map = newTexture;
         window.earthMaterial.color = new THREE.Color(0xffffff);
     }
 
     if (config.bumpMap) {
+        // On ne charge la bump map que si on a pas déjà échoué (difficile à savoir ici en asynchrone)
+        // Mais Three.js gère bien les chargements multiples.
+        // Si la texture principale échoue plus tard, le onError ci-dessus nettoiera tout.
         const newBump = window.textureLoader.load(config.bumpMap);
         window.earthMaterial.bumpMap = newBump;
         window.earthMaterial.bumpScale = 0.05;
@@ -516,7 +533,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoTitle = document.getElementById('info-title');
     const infoSummary = document.getElementById('info-summary');
     const infoHistory = document.getElementById('info-history');
-    const infoStatus = document.getElementById('info-status');
+
+    // Nouveaux champs
+    const infoType = document.getElementById('info-type');
+    const infoDiameter = document.getElementById('info-diameter');
+    const infoDistance = document.getElementById('info-distance');
+    const infoTemp = document.getElementById('info-temp');
 
     function updateInfoModal(planetName) {
         const data = planetData[planetName];
@@ -526,7 +548,12 @@ document.addEventListener('DOMContentLoaded', () => {
         infoTitle.textContent = data.title;
         infoSummary.textContent = data.summary;
         infoHistory.textContent = data.history;
-        infoStatus.textContent = data.visitStatus;
+
+        // Mise à jour des données techniques
+        if (infoType) infoType.textContent = data.type;
+        if (infoDiameter) infoDiameter.textContent = data.diameter;
+        if (infoDistance) infoDistance.textContent = data.distance;
+        if (infoTemp) infoTemp.textContent = data.temp;
     }
 
     infoBtn.addEventListener('click', () => {
@@ -561,8 +588,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Hook dans switchPlanet pour mettre à jour le modal s'il est ouvert
-    const originalSwitchPlanet = window.switchPlanet; // Attention: switchPlanet est défini globalement plus haut mais pas attaché à window explicitement dans ce fichier, mais il est dans le scope global.
-    // Cependant, switchPlanet est défini dans ce fichier. Modifions plutôt la fonction switchPlanet directement.
+    const originalSwitchPlanet = window.switchPlanet;
 });
 
 // Modification de la fonction switchPlanet pour mettre à jour le modal
@@ -577,7 +603,11 @@ switchPlanet = function (planetName) {
         const infoTitle = document.getElementById('info-title');
         const infoSummary = document.getElementById('info-summary');
         const infoHistory = document.getElementById('info-history');
-        const infoStatus = document.getElementById('info-status');
+
+        const infoType = document.getElementById('info-type');
+        const infoDiameter = document.getElementById('info-diameter');
+        const infoDistance = document.getElementById('info-distance');
+        const infoTemp = document.getElementById('info-temp');
 
         const data = planetData[planetName];
         if (data) {
@@ -585,7 +615,11 @@ switchPlanet = function (planetName) {
             infoTitle.textContent = data.title;
             infoSummary.textContent = data.summary;
             infoHistory.textContent = data.history;
-            infoStatus.textContent = data.visitStatus;
+
+            if (infoType) infoType.textContent = data.type;
+            if (infoDiameter) infoDiameter.textContent = data.diameter;
+            if (infoDistance) infoDistance.textContent = data.distance;
+            if (infoTemp) infoTemp.textContent = data.temp;
         }
     }
 };
