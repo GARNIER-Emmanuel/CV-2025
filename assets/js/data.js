@@ -15,7 +15,7 @@ const profileData = {
     bio: `
         Actuellement en <strong>Master 1 Développement Full Stack</strong> à Sup de Vinci (Bordeaux) et en alternance chez CGI. 
         Je combine une solide base académique (BTS SIO, Bachelor CESI) avec une expérience terrain en développement Java et Web.
-        Passionné par l'architecture logicielle (MVC, DAO) et la rigueur du code, j'applique la même précision dans mes mixes musicaux que dans mes commits.
+        Passionné par l'architecture logicielle (MVC, DAO) et la rigueur du code, j'applique la même précision dans mes projets personnels que dans mes commits.
     `
 };
 

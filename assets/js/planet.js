@@ -13,7 +13,7 @@ const camera = new THREE.PerspectiveCamera(
     0.1,
     1000
 );
-camera.position.z = 3;
+camera.position.set(0, 0, 5); // Position de la caméra ajustée
 
 // Renderer
 const renderer = new THREE.WebGLRenderer({
@@ -26,11 +26,14 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // ===== CRÉATION DE LA PLANÈTE =====
 
-// Géométrie sphérique
-const geometry = new THREE.SphereGeometry(1, 64, 64);
+// Géométrie sphérique (rayon plus grand)
+const geometry = new THREE.SphereGeometry(1.5, 64, 64);
 
 // Textures de la Terre (NASA)
 const textureLoader = new THREE.TextureLoader();
+
+// Exposer le textureLoader globalement pour planet-switcher.js
+window.textureLoader = textureLoader;
 
 // Texture principale (continents et océans)
 const earthTexture = textureLoader.load(
@@ -47,18 +50,26 @@ const specularTexture = textureLoader.load(
     'https://raw.githubusercontent.com/turban/webgl-earth/master/images/water_4k.png'
 );
 
-// Matériau avec textures
-const material = new THREE.MeshPhongMaterial({
+// Matériau Terre avec textures
+const earthMaterial = new THREE.MeshPhongMaterial({
     map: earthTexture,
     bumpMap: bumpTexture,
     bumpScale: 0.05,
     specularMap: specularTexture,
     specular: new THREE.Color(0x333333),
-    shininess: 25
+    shininess: 25,
+    transparent: true,
+    opacity: 1
 });
 
-const planet = new THREE.Mesh(geometry, material);
+const planet = new THREE.Mesh(geometry, earthMaterial);
+// Position initiale de la Terre (à droite sur desktop)
+planet.position.set(2, 0, 0);
 scene.add(planet);
+
+// Exposer les variables globalement pour planet-switcher.js
+window.earthMaterial = earthMaterial;
+window.planet = planet;
 
 // ===== LUMIÈRES =====
 
@@ -98,6 +109,16 @@ starsGeometry.setAttribute(
 
 const stars = new THREE.Points(starsGeometry, starsMaterial);
 scene.add(stars);
+
+// ===== GESTION DU SCROLL =====
+
+let scrollProgress = 0;
+
+window.addEventListener('scroll', () => {
+    // Calculer la progression du scroll (0 à 1)
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    scrollProgress = Math.min(window.scrollY / scrollHeight, 1);
+});
 
 // ===== INTERACTION SOURIS =====
 
@@ -175,10 +196,30 @@ function animate() {
     // Les étoiles tournent très lentement
     stars.rotation.y += 0.0001;
 
-    // Positionner la planète à droite de l'écran
+    // ===== EFFET DE SCROLL =====
+
     const screenWidth = window.innerWidth;
-    const planetOffset = screenWidth > 768 ? 2.5 : 0; // À droite sur desktop, centrée sur mobile
-    planet.position.x = planetOffset;
+
+    if (screenWidth > 768) {
+        // TERRE : défile vers la gauche et s'éloigne progressivement
+        // Position X : de droite (2) vers gauche (-3)
+        planet.position.x = 2 - (scrollProgress * 5); // 2 → -3
+
+        // Position Z : s'éloigner (reculer dans la profondeur)
+        planet.position.z = scrollProgress * 4; // 0 → 4
+
+        // Opacité : disparaît progressivement en fin de scroll
+        earthMaterial.opacity = 1 - (scrollProgress * 0.7); // 1 → 0.3
+
+        // Échelle : légèrement plus petite en s'éloignant
+        const scale = 1 - (scrollProgress * 0.2); // 1 → 0.8
+        planet.scale.set(scale, scale, scale);
+    } else {
+        // Sur mobile : garder centré sans effet de scroll
+        planet.position.set(0, 0, 0);
+        earthMaterial.opacity = 1;
+        planet.scale.set(1, 1, 1);
+    }
 
     renderer.render(scene, camera);
 }

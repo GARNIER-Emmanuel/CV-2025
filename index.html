@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emmanuel Garnier Boidun | Full-Stack Developer</title>
-    
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
+
     <!-- Tailwind CSS (CDN pour dev rapide) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -23,20 +24,156 @@
 
     <!-- Ton CSS Custom -->
     <link rel="stylesheet" href="assets/css/style.css">
-    
+
     <!-- Icônes -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    </head>
-    <body class="bg-slate-950 text-slate-200 overflow-x-hidden">
+</head>
+
+<body class="bg-slate-950 text-slate-200 overflow-x-hidden">
     <!-- Canvas 3D pour la planète -->
     <canvas id="space-canvas"></canvas>
     <!-- Zone interactive pour la planète -->
     <div id="planet-interaction-zone"></div>
 
+    <!-- Menu Burger Planètes -->
+    <button id="planet-burger"
+        class="fixed top-24 right-6 z-50 w-14 h-14 rounded-full bg-slate-800/90 backdrop-blur-sm border border-slate-700 flex items-center justify-center hover:bg-slate-700 transition-all shadow-lg">
+        <span class="text-2xl">🪐</span>
+    </button>
+
+    <!-- Bouton Info Planète -->
+    <button id="planet-info-btn"
+        class="fixed top-40 right-6 z-50 w-14 h-14 rounded-full bg-slate-800/90 backdrop-blur-sm border border-slate-700 flex items-center justify-center hover:bg-slate-700 transition-all shadow-lg">
+        <span class="text-2xl">❓</span>
+    </button>
+
+    <!-- Modal Info Planète -->
+    <div id="planet-info-modal"
+        class="fixed top-24 right-24 z-40 w-80 bg-slate-900/95 backdrop-blur-lg border border-slate-700 rounded-2xl p-6 shadow-2xl hidden transform transition-all duration-300 origin-top-right scale-95 opacity-0">
+        <div class="flex items-center gap-3 mb-4 pb-4 border-b border-slate-800">
+            <span id="info-emoji" class="text-4xl">🌍</span>
+            <div>
+                <h3 id="info-title" class="text-xl font-bold text-white">Terre</h3>
+                <span class="text-xs text-slate-500 uppercase tracking-wider">Fiche Technique</span>
+            </div>
+        </div>
+
+        <div class="space-y-4">
+            <div>
+                <h4 class="text-sm font-semibold text-indigo-400 mb-1">Résumé</h4>
+                <p id="info-summary" class="text-sm text-slate-300 leading-relaxed">Notre maison, le seul endroit connu
+                    abritant la vie.</p>
+            </div>
+
+            <div>
+                <h4 class="text-sm font-semibold text-indigo-400 mb-1">Historique</h4>
+                <p id="info-history" class="text-xs text-slate-400 leading-relaxed">Formée il y a 4.5 milliards
+                    d'années.</p>
+            </div>
+
+            <div class="bg-slate-800/50 rounded-lg p-3 border border-slate-700">
+                <h4 class="text-xs font-bold text-slate-500 uppercase mb-1">Statut de visite</h4>
+                <p id="info-status" class="text-sm text-white">🏠 Résidence actuelle.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Planètes -->
+    <div id="planet-menu"
+        class="fixed top-24 right-6 z-40 bg-slate-900/95 backdrop-blur-lg border border-slate-700 rounded-2xl p-4 shadow-2xl hidden max-h-[80vh] overflow-y-auto">
+        <h3
+            class="text-white font-bold mb-4 text-sm uppercase tracking-wider flex items-center gap-2 sticky top-0 bg-slate-900/95 pb-2">
+            <span>🚀</span> Système Solaire
+        </h3>
+        <div class="space-y-1">
+            <button data-planet="sun"
+                class="planet-btn w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-yellow-500/50">
+                <span class="text-xl">☀️</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Soleil</div>
+                    <div class="text-slate-500">Notre étoile</div>
+                </div>
+            </button>
+            <button data-planet="mercury"
+                class="planet-btn w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-gray-400/50">
+                <span class="text-xl">🌑</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Mercure</div>
+                    <div class="text-slate-500">La plus proche</div>
+                </div>
+            </button>
+            <button data-planet="venus"
+                class="planet-btn w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-orange-300/50">
+                <span class="text-xl">🟡</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Vénus</div>
+                    <div class="text-slate-500">L'étoile du berger</div>
+                </div>
+            </button>
+            <button data-planet="earth"
+                class="planet-btn active w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-blue-500/50">
+                <span class="text-xl">🌍</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Terre</div>
+                    <div class="text-slate-500">Notre maison</div>
+                </div>
+            </button>
+            <button data-planet="moon"
+                class="planet-btn w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-gray-300/50">
+                <span class="text-xl">🌙</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Lune</div>
+                    <div class="text-slate-500">Notre satellite</div>
+                </div>
+            </button>
+            <button data-planet="mars"
+                class="planet-btn w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-red-500/50">
+                <span class="text-xl">🔴</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Mars</div>
+                    <div class="text-slate-500">La planète rouge</div>
+                </div>
+            </button>
+            <button data-planet="jupiter"
+                class="planet-btn w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-orange-400/50">
+                <span class="text-xl">🟠</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Jupiter</div>
+                    <div class="text-slate-500">Géante gazeuse</div>
+                </div>
+            </button>
+            <button data-planet="saturn"
+                class="planet-btn w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-yellow-600/50">
+                <span class="text-xl">🪐</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Saturne</div>
+                    <div class="text-slate-500">Seigneur des anneaux</div>
+                </div>
+            </button>
+            <button data-planet="uranus"
+                class="planet-btn w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-cyan-400/50">
+                <span class="text-xl">🔵</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Uranus</div>
+                    <div class="text-slate-500">La géante de glace</div>
+                </div>
+            </button>
+            <button data-planet="neptune"
+                class="planet-btn w-full flex items-center gap-3 p-2 rounded-lg bg-slate-800/50 hover:bg-slate-700 transition-all text-left border border-transparent hover:border-blue-600/50">
+                <span class="text-xl">❄️</span>
+                <div class="text-xs">
+                    <div class="text-white font-semibold">Neptune</div>
+                    <div class="text-slate-500">La lointaine</div>
+                </div>
+            </button>
+        </div>
+    </div>
+
     <!-- NAVIGATION -->
     <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 bg-transparent">
         <div class="container mx-auto px-6 flex justify-between items-center">
-            <span class="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+            <span
+                class="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
                 EGB.DEV
             </span>
             <div class="hidden md:flex gap-8 text-sm font-medium text-slate-400">
@@ -45,9 +182,10 @@
                 <a href="#projects" class="hover:text-indigo-400 transition-colors">Projets</a>
                 <a href="#experience" class="hover:text-indigo-400 transition-colors">Experience</a>
                 <a href="#formation" class="hover:text-indigo-400 transition-colors">Formation</a>
-                <a href="#music" class="hover:text-purple-400 transition-colors">Studio</a>
+                <a href="#space-news" class="hover:text-orange-400 transition-colors">Space News</a>
             </div>
-            <a href="#contact" class="px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-all shadow-lg shadow-indigo-500/30">
+            <a href="#contact"
+                class="px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold transition-all shadow-lg shadow-indigo-500/30">
                 Me Contacter
             </a>
         </div>
@@ -60,18 +198,21 @@
             <!-- Le pointer-events-none permet à la souris de passer à travers le texte 
                  pour toucher la planète derrière, si besoin. 
                  Sinon, enlève la classe pour pouvoir sélectionner le texte. -->
-            
-            <div class="inline-flex items-center gap-2 mb-6 px-4 py-1 border border-sky-500/30 bg-sky-500/10 text-sky-400 text-xs font-mono tracking-[0.2em] uppercase pointer-events-auto">
+
+            <div
+                class="inline-flex items-center gap-2 mb-6 px-4 py-1 border border-sky-500/30 bg-sky-500/10 text-sky-400 text-xs font-mono tracking-[0.2em] uppercase pointer-events-auto">
                 <span class="w-2 h-2 bg-sky-400 rounded-full animate-pulse"></span>
                 Mission Ready : Alternance
             </div>
-            
+
             <!-- ... Reste de ton contenu (Titre, Boutons) ... -->
             <!-- Important : Ajoute 'pointer-events-auto' sur tes boutons pour qu'ils restent cliquables -->
-             <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-4 text-white drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">
-                EMMANUEL <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">GARNIER</span>
+            <h1
+                class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-4 text-white drop-shadow-[0_0_15px_rgba(56,189,248,0.5)]">
+                EMMANUEL <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600">GARNIER
+                    BOIDUN</span>
             </h1>
-            
+
             <div class="flex justify-center gap-6 items-center mt-12 pointer-events-auto">
                 <a href="#projects" class="btn-launch">
                     INITIATE SEQUENCE
@@ -79,7 +220,7 @@
                 <!-- ... -->
             </div>
         </div>
-        
+
         <!-- ... HUD Grid ... -->
     </header>
 
@@ -147,18 +288,27 @@
         </div>
     </section>
 
-    <!-- MUSIC -->
-    <section id="music" class="py-20 relative overflow-hidden">
+    <!-- SPACE NEWS -->
+    <section id="space-news" class="py-20 relative overflow-hidden bg-slate-900/30">
         <div class="container mx-auto px-6 relative z-10">
-            <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 border border-slate-700 flex flex-col md:flex-row items-center gap-10">
-                <div class="flex-1">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold mb-6">
-                        <i data-lucide="headphones" class="w-3 h-3"></i> SIDE PROJECT
-                    </div>
-                    <h2 class="text-3xl font-bold text-white mb-4">Producteur & Codeur</h2>
-                    <p class="text-slate-300 mb-6">Mon workflow musical sur <strong>Cubase</strong> influence ma façon de coder : gestion des signaux, chaînes de traitement et mastering.</p>
+            <h2 class="section-title">
+                <i data-lucide="rocket" class="text-orange-500"></i> Actualités Spatiales
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Cosmonaute illustration -->
+                <div class="flex flex-col items-center justify-center text-center">
+                    <div class="text-9xl mb-4">🧑‍🚀</div>
+                    <h3 class="text-xl font-bold text-white mb-2">Mission Update</h3>
+                    <p class="text-slate-400 text-sm">Dernières avancées de la conquête spatiale</p>
                 </div>
-                <div id="waveform" class="flex-1 w-full h-32 flex items-end justify-center gap-1"></div>
+
+                <!-- News feed -->
+                <div class="md:col-span-2 space-y-4" id="space-news-container">
+                    <div class="text-center text-slate-500">
+                        <i data-lucide="loader" class="w-8 h-8 mx-auto mb-2 animate-spin"></i>
+                        <p>Chargement des actualités spatiales...</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -166,7 +316,8 @@
     <!-- FOOTER -->
     <footer id="contact" class="py-12 bg-slate-950 border-t border-slate-900 text-center">
         <h3 class="text-2xl font-bold text-white mb-6">Prêt à collaborer ?</h3>
-        <a href="mailto:ton-email@gmail.com" class="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 text-lg font-medium">
+        <a href="mailto:ton-email@gmail.com"
+            class="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 text-lg font-medium">
             <i data-lucide="mail"></i> envoyer un mail
         </a>
         <div class="mt-12 text-slate-700 text-sm">© <span id="year"></span> Emmanuel Garnier Boidun</div>
@@ -175,7 +326,11 @@
     <!-- SCRIPTS (Ordre important) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="assets/js/data.js"></script>
+    <script src="assets/js/planet-data.js"></script>
     <script src="assets/js/planet.js"></script>
+    <script src="assets/js/planet-switcher.js"></script>
+    <script src="assets/js/space-news.js"></script>
     <script src="assets/js/main.js"></script>
 </body>
+
 </html>
