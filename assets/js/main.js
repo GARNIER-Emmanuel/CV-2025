@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // 1. Injection de la Bio & Infos Globales
-    if(document.getElementById('bio-text')) {
+    if(document.getElementById('bio-text') && typeof profileData !== 'undefined') {
         document.getElementById('bio-text').innerHTML = profileData.bio;
     }
     if(document.getElementById('year')) {
@@ -10,22 +10,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Génération de la Stack (Version Visuelle avec Jauges)
     const stackContainer = document.getElementById('stack-container');
-    if (stackContainer) {
+    if (stackContainer && typeof skills !== 'undefined') {
         skills.forEach((skill, index) => {
             const skillCard = `
-                <div class="card p-5 hover:bg-slate-900 group cursor-default border border-slate-800 rounded-xl transition-all hover:-translate-y-1 relative overflow-hidden">
+                <div class="card-space p-5 hover:bg-slate-900/80 group cursor-default border border-slate-800 rounded-xl transition-all hover:-translate-y-1 relative overflow-hidden">
                     <!-- Header: Nom + Pourcentage -->
                     <div class="flex justify-between items-end mb-3">
-                        <h3 class="font-bold text-lg text-white group-hover:${skill.text} transition-colors flex items-center gap-2">
+                        <h3 class="font-bold text-lg text-white group-hover:${skill.text} transition-colors flex items-center gap-2 font-tech">
                             ${skill.name}
                         </h3>
                         <span class="text-xs font-mono text-slate-500 font-bold">${skill.percent}%</span>
                     </div>
                     
                     <!-- Progress Bar Background -->
-                    <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
                         <!-- Progress Bar Fill (Animée via style width) -->
-                        <div class="h-full ${skill.color} rounded-full transition-all duration-1000 ease-out group-hover:brightness-125 shadow-[0_0_10px_rgba(255,255,255,0.3)]" 
+                        <div class="h-full ${skill.color} rounded-full transition-all duration-1000 ease-out group-hover:brightness-125 shadow-[0_0_8px_rgba(56,189,248,0.4)]" 
                              style="width: 0%" 
                              id="skill-bar-${index}">
                         </div>
@@ -34,43 +34,42 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             stackContainer.innerHTML += skillCard;
             
-            // Petite astuce pour animer la barre après l'injection dans le DOM
+            // Animation différée pour l'effet "wavy"
             setTimeout(() => {
                 const bar = document.getElementById(`skill-bar-${index}`);
                 if(bar) bar.style.width = `${skill.percent}%`;
-            }, 100 + (index * 100)); // Délai en cascade pour un effet "wavy" sympa
+            }, 150 + (index * 100));
         });
     }
-
 
     // 3. Génération de la section Expériences (Timeline Verticale)
     const experienceContainer = document.getElementById('experience-container');
     if (experienceContainer && typeof experiences !== 'undefined') {
         experiences.forEach(exp => {
             const expCard = `
-                <div class="relative group pl-6 pb-8 border-l-2 border-slate-800 last:border-0 last:pb-0">
-                    <!-- Point sur la timeline -->
-                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-950 border-2 border-indigo-500 group-hover:bg-indigo-500 group-hover:scale-125 transition-all z-10 shadow-[0_0_10px_rgba(99,102,241,0.5)]"></div>
+                <div class="relative group pl-8 pb-10 border-l border-slate-800 last:border-0 last:pb-0">
+                    <!-- Point sur la timeline (Style Space/Tech) -->
+                    <div class="absolute -left-[7px] top-1 w-3.5 h-3.5 rounded-full bg-slate-950 border border-sky-500 group-hover:bg-sky-500 group-hover:shadow-[0_0_15px_rgba(14,165,233,0.6)] transition-all z-10"></div>
                     
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                        <h3 class="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">${exp.role}</h3>
-                        <span class="text-xs font-mono text-indigo-300 bg-indigo-500/10 px-2 py-1 rounded border border-indigo-500/20">
+                        <h3 class="text-xl font-bold text-white group-hover:text-sky-400 transition-colors font-tech">${exp.role}</h3>
+                        <span class="text-xs font-mono text-sky-300/80 bg-sky-500/10 px-2 py-1 rounded border border-sky-500/20 tracking-wider">
                             ${exp.period}
                         </span>
                     </div>
                     
-                    <div class="text-slate-400 font-semibold text-sm mb-3 flex items-center gap-2">
-                        <i data-lucide="building-2" class="w-3 h-3"></i> ${exp.company} 
-                        <span class="text-slate-600">•</span> 
+                    <div class="text-slate-400 font-medium text-sm mb-3 flex items-center gap-2">
+                        <i data-lucide="building-2" class="w-3 h-3 text-sky-600"></i> ${exp.company} 
+                        <span class="text-slate-700">•</span> 
                         <span>${exp.location}</span>
                     </div>
                     
-                    <p class="text-slate-400 text-sm leading-relaxed max-w-2xl mb-3">
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-2xl mb-4 opacity-80">
                         ${exp.desc}
                     </p>
                     
                     <div class="flex gap-2 flex-wrap">
-                        ${exp.tags.map(tag => `<span class="text-[10px] uppercase tracking-wider text-slate-500 border border-slate-800 px-2 py-0.5 rounded hover:border-slate-600 transition-colors">${tag}</span>`).join('')}
+                        ${exp.tags.map(tag => `<span class="text-[10px] uppercase tracking-widest text-slate-500 border border-slate-800 px-2 py-0.5 rounded hover:text-sky-300 hover:border-sky-500/30 transition-colors">${tag}</span>`).join('')}
                     </div>
                 </div>
             `;
@@ -78,24 +77,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3.8 Génération de la section Formations (Éducation)
+    // 4. Génération de la section Formations (Éducation)
     const educationContainer = document.getElementById('education-container');
     if (educationContainer && typeof education !== 'undefined') {
         education.forEach(edu => {
             const eduCard = `
-                <div class="relative p-6 bg-slate-950 border border-slate-800 rounded-xl hover:border-green-500/50 transition-all hover:-translate-y-1 group">
-                    <!-- Icône décorative en background -->
-                    <i data-lucide="award" class="absolute top-4 right-4 text-slate-800 w-12 h-12 opacity-20 group-hover:text-green-500/20 group-hover:scale-125 transition-all duration-500"></i>
+                <div class="card-space relative p-6 bg-slate-950/50 border border-slate-800/60 rounded-xl hover:border-sky-500/40 transition-all hover:-translate-y-1 group overflow-hidden">
+                    <!-- Icône décorative (Style Hologramme) -->
+                    <i data-lucide="award" class="absolute -top-2 -right-2 text-slate-800 w-20 h-20 opacity-20 group-hover:text-sky-500/10 group-hover:rotate-12 transition-all duration-700"></i>
                     
-                    <span class="inline-block px-3 py-1 mb-4 text-xs font-mono font-semibold text-green-400 bg-green-500/10 border border-green-500/20 rounded-full">
+                    <span class="inline-block px-3 py-1 mb-4 text-xs font-mono font-bold text-sky-400 bg-sky-500/5 border border-sky-500/20 rounded">
                         ${edu.year}
                     </span>
                     
-                    <h3 class="text-lg font-bold text-white mb-1 group-hover:text-green-400 transition-colors">
+                    <h3 class="text-lg font-bold text-white mb-1 group-hover:text-sky-300 transition-colors font-tech">
                         ${edu.degree}
                     </h3>
                     
-                    <p class="text-slate-400 text-sm font-medium flex items-center gap-2">
+                    <p class="text-slate-500 text-sm font-medium flex items-center gap-2">
                         <i data-lucide="school" class="w-3 h-3"></i> ${edu.school}
                     </p>
                 </div>
@@ -104,29 +103,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 4. Génération des Projets
+    // 5. Génération des Projets
     const projectsContainer = document.getElementById('projects-container');
-    if (projectsContainer) {
+    if (projectsContainer && typeof projects !== 'undefined') {
         projects.forEach(project => {
             // Création dynamique des tags
             let tagsHTML = '';
             project.tags.forEach((tag, index) => {
-                const color = index % 2 === 0 ? 'indigo' : 'purple';
-                tagsHTML += `<span class="text-xs px-3 py-1 rounded-full bg-${color}-500/10 text-${color}-300 border border-${color}-500/20">${tag}</span>`;
+                tagsHTML += `<span class="text-[10px] uppercase tracking-wider px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">${tag}</span>`;
             });
 
             const projectCard = `
-                <div class="group relative bg-slate-900 rounded-2xl overflow-hidden border border-slate-800 hover:border-indigo-500 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10">
-                    <div class="h-48 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
-                        <!-- Effet de glow au survol -->
-                        <div class="absolute inset-0 bg-indigo-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div class="card-space group relative rounded-2xl overflow-hidden border border-slate-800 hover:border-sky-500/50 transition-all hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(14,165,233,0.15)]">
+                    <div class="h-48 bg-gradient-to-br from-slate-900 to-slate-950 flex items-center justify-center relative overflow-hidden">
+                        <!-- Effet de Scanline au survol -->
+                        <div class="absolute inset-0 bg-sky-500/10 translate-y-full group-hover:translate-y-[-100%] transition-transform duration-[1.5s] z-0"></div>
+                        
                         <span class="text-slate-600 font-mono text-xl group-hover:text-white transition-colors relative z-10 flex items-center gap-2">
-                            <i data-lucide="image" class="w-5 h-5"></i> ${project.placeholder}
+                            <i data-lucide="monitor" class="w-5 h-5 text-sky-600"></i> ${project.placeholder}
                         </span>
                     </div>
                     <div class="p-8">
-                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">${project.title}</h3>
-                        <p class="text-slate-400 mb-6 text-sm line-clamp-3 leading-relaxed">${project.desc}</p>
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors font-tech">${project.title}</h3>
+                        <p class="text-slate-400 mb-6 text-sm line-clamp-3 leading-relaxed opacity-80">${project.desc}</p>
                         <div class="flex gap-2 flex-wrap">
                             ${tagsHTML}
                         </div>
@@ -138,37 +137,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 5. Animation Waveform (Audio Section)
+    // 6. Animation Waveform (Audio Section - Style Égaliseur)
     const waveformContainer = document.getElementById('waveform');
     if (waveformContainer) {
-        waveformContainer.innerHTML = ''; // Reset au cas où
+        waveformContainer.innerHTML = ''; 
         for (let i = 0; i < 20; i++) {
             const bar = document.createElement('div');
-            bar.className = 'w-1.5 md:w-2 bg-indigo-500 rounded-t-sm audio-bar mx-[1px] md:mx-0.5';
-            // Hauteur et délai aléatoires pour effet naturel
+            bar.className = 'w-1.5 md:w-2 bg-sky-500 rounded-t-sm audio-bar mx-[1px] md:mx-0.5 shadow-[0_0_5px_rgba(14,165,233,0.5)]';
             bar.style.height = Math.max(20, Math.random() * 100) + '%';
             bar.style.animationDelay = (i * 0.05) + 's';
-            bar.style.opacity = '0.7';
+            bar.style.opacity = '0.8';
             waveformContainer.appendChild(bar);
         }
     }
 
-    // 6. Navbar Scroll Effect (Glassmorphism)
+    // 7. Navbar Scroll Effect (Glassmorphism Spatial)
     const navbar = document.getElementById('navbar');
     if (navbar) {
         window.addEventListener('scroll', () => {
             if (window.scrollY > 20) {
-                navbar.classList.add('bg-slate-950/80', 'backdrop-blur-md', 'border-b', 'border-slate-800/50', 'shadow-lg');
+                navbar.classList.add('bg-slate-950/90', 'backdrop-blur-md', 'border-b', 'border-sky-900/30', 'shadow-lg', 'py-4');
                 navbar.classList.remove('bg-transparent', 'py-6');
-                navbar.classList.add('py-4');
             } else {
-                navbar.classList.remove('bg-slate-950/80', 'backdrop-blur-md', 'border-b', 'border-slate-800/50', 'shadow-lg', 'py-4');
+                navbar.classList.remove('bg-slate-950/90', 'backdrop-blur-md', 'border-b', 'border-sky-900/30', 'shadow-lg', 'py-4');
                 navbar.classList.add('bg-transparent', 'py-6');
             }
         });
     }
 
-    // 7. Initialisation des icônes Lucide
+    // 8. Initialisation des icônes Lucide
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
