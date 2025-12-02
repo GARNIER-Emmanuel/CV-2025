@@ -177,7 +177,7 @@ export const interests = [
     {
         icon: "🎧",
         title: "Production Musicale",
-        description: "\"Artiste\" expérimental passionné sur Cubase : composition, enregistrement et ingénierie du son (Mix/Master)."
+        description: "\"Artiste\" expérimental passionné sur Cubase pour moi même : composition, enregistrement et ingénierie du son (Mix/Master)."
     },
     {
         icon: "💻",
