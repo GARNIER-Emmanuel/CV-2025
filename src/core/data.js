@@ -26,23 +26,23 @@ export const profileData = {
 // 2. Liste des Compétences (Avec pourcentages pour les jauges)
 export const skills = [
     // Frontend
-    { name: 'JavaScript', percent: 90, color: 'bg-yellow-400', text: 'text-yellow-400' },
-    { name: 'React.js', percent: 85, color: 'bg-blue-400', text: 'text-blue-400' },
-    { name: 'Angular', percent: 70, color: 'bg-red-500', text: 'text-red-500' },
-    { name: 'Tailwind CSS', percent: 90, color: 'bg-sky-300', text: 'text-sky-300' },
-    { name: 'HTML/CSS', percent: 95, color: 'bg-orange-400', text: 'text-orange-400' },
+    { name: 'JavaScript', percent: 80, color: 'bg-yellow-400', text: 'text-yellow-400' },
+    { name: 'React.js', percent: 60, color: 'bg-blue-400', text: 'text-blue-400' },
+    { name: 'Angular', percent: 50, color: 'bg-red-500', text: 'text-red-500' },
+    { name: 'Tailwind CSS', percent: 75, color: 'bg-sky-300', text: 'text-sky-300' },
+    { name: 'HTML/CSS', percent: 90, color: 'bg-orange-400', text: 'text-orange-400' },
 
     // Backend
     { name: 'Java (POO)', percent: 85, color: 'bg-orange-600', text: 'text-orange-600' },
-    { name: 'Python', percent: 75, color: 'bg-blue-500', text: 'text-blue-500' },
-    { name: 'PHP/Symfony', percent: 75, color: 'bg-indigo-400', text: 'text-indigo-400' },
+    { name: 'Python', percent: 70, color: 'bg-blue-500', text: 'text-blue-500' },
+    { name: 'PHP/Symfony', percent: 70, color: 'bg-indigo-400', text: 'text-indigo-400' },
 
     // Bases de données
     { name: 'SQL (MySQL/PostgreSQL)', percent: 80, color: 'bg-blue-300', text: 'text-blue-300' },
-    { name: 'MongoDB', percent: 65, color: 'bg-green-500', text: 'text-green-500' },
+    { name: 'MongoDB', percent: 50, color: 'bg-green-500', text: 'text-green-500' },
 
     // DevOps & Outils
-    { name: 'Docker', percent: 70, color: 'bg-blue-600', text: 'text-blue-600' },
+    { name: 'Docker', percent: 65, color: 'bg-blue-600', text: 'text-blue-600' },
     { name: 'Git', percent: 85, color: 'bg-orange-500', text: 'text-orange-500' },
 
     // Architecture & Méthodes

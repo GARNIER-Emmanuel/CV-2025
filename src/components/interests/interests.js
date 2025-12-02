@@ -18,3 +18,41 @@ if (container) {
 if (typeof lucide !== 'undefined') {
     lucide.createIcons();
 }
+
+// Effet parallaxe sur la nébuleuse
+const section = document.getElementById('interests');
+const nebulaBg = document.getElementById('nebula-bg-interests');
+
+if (section && nebulaBg) {
+    let currentX = 0;
+    let currentY = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    const ease = 0.08;
+
+    section.addEventListener('mousemove', (e) => {
+        const rect = section.getBoundingClientRect();
+        const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+        const yPct = (e.clientY - rect.top) / rect.height - 0.5;
+        
+        targetX = xPct * 40;
+        targetY = yPct * 40;
+    });
+    
+    section.addEventListener('mouseleave', () => {
+        targetX = 0;
+        targetY = 0;
+    });
+
+    function animate() {
+        currentX += (targetX - currentX) * ease;
+        currentY += (targetY - currentY) * ease;
+
+        nebulaBg.style.transform = `scale(1.1) translate3d(${currentX}px, ${currentY}px, 0)`;
+
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+}
