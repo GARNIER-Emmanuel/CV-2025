@@ -15,13 +15,9 @@ export const profileData = {
     bio: `
         Actuellement en Master 1 Développement Full Stack à Sup de Vinci (Bordeaux) et en alternance chez CGI, 
         je conçois des applications back-end et web rigoureuses tout en explorant des projets créatifs. 
-        Curieux et autonome, je ne me contente pas d'utiliser les technos que je connais, 
-        j'apprends constamment de nouvelles stacks et j'expérimente des architectures modernes.
+        Curieux et autonome, j'aime apprendre et j'expérimente ce que j'apprends sur mes projets personnels comme professionnel.
         Passionné par l'informatique de la plus petite technologie humaine aux plus grandes créations de l'espace,
         je suis curieux de toute les nouveautés technologiques concernant l'IA, ou autre technique interréssante et innnovante.
-        j'applique la même exigence dans mes projets professionnels que dans mes side-projects, 
-        où je soigne autant l'expérience utilisateur que la structure technique. 
-        Mon objectif : livrer du code propre, scalable, et qui raconte une histoire.
         `
 };
 
@@ -29,15 +25,15 @@ export const profileData = {
 export const skills = [
     // Frontend
     { name: 'JavaScript', percent: 80, color: 'bg-yellow-400', text: 'text-yellow-400' },
-    { name: 'React.js', percent: 60, color: 'bg-blue-400', text: 'text-blue-400' },
-    { name: 'Angular', percent: 50, color: 'bg-red-500', text: 'text-red-500' },
-    { name: 'Tailwind CSS', percent: 75, color: 'bg-sky-300', text: 'text-sky-300' },
-    { name: 'HTML/CSS', percent: 90, color: 'bg-orange-400', text: 'text-orange-400' },
+    { name: 'React.js', percent: 55, color: 'bg-blue-400', text: 'text-blue-400' },
+    { name: 'Angular', percent: 45, color: 'bg-red-500', text: 'text-red-500' },
+    { name: 'Tailwind CSS', percent: 70, color: 'bg-sky-300', text: 'text-sky-300' },
+    { name: 'HTML/CSS', percent: 85, color: 'bg-orange-400', text: 'text-orange-400' },
 
     // Backend
     { name: 'Java (POO)', percent: 85, color: 'bg-orange-600', text: 'text-orange-600' },
-    { name: 'Python', percent: 70, color: 'bg-blue-500', text: 'text-blue-500' },
-    { name: 'PHP/Symfony', percent: 70, color: 'bg-indigo-400', text: 'text-indigo-400' },
+    { name: 'Python', percent: 65, color: 'bg-blue-500', text: 'text-blue-500' },
+    { name: 'PHP/Symfony', percent: 65, color: 'bg-indigo-400', text: 'text-indigo-400' },
 
     // Bases de données
     { name: 'SQL (MySQL/PostgreSQL)', percent: 80, color: 'bg-blue-300', text: 'text-blue-300' },
@@ -49,7 +45,8 @@ export const skills = [
 
     // Architecture & Méthodes
     { name: 'MVC/DAO', percent: 80, color: 'bg-purple-500', text: 'text-purple-500' },
-    { name: 'UML/MERISE', percent: 75, color: 'bg-pink-500', text: 'text-pink-500' }
+    { name: 'UML/MERISE', percent: 75, color: 'bg-pink-500', text: 'text-pink-500' },
+    { name: 'AGILITE', percent: 65, color: 'bg-pink-500', text: 'text-pink-500' }
 ];
 
 
@@ -188,9 +185,9 @@ export const interests = [
         description: "Veille active sur l'écosystème React/Node et les architectures logicielles modernes."
     },
     {
-        icon: "🎮",
-        title: "Gaming & Cinéma",
-        description: "Amateur de RPGs et cinémas j'aime découvrir le cinéma en globalité, les films qui poussent à la réflexion et qui ne laisse aucun détails au hasard."
+        icon: "🎬",
+        title: "Cinéma",
+        description: "Amateur de cinéma j'aime découvrir le cinéma en globalité, les films qui poussent à la réflexion et qui ne laisse aucun détails au hasard."
     },
     {
         icon: "🎨",
