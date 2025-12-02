@@ -140,7 +140,7 @@ export const projects = [
     },
     {
         title: "Feedly Reader",
-        desc: "Interface de récupération de feed perso afin d'être à jour dans l'actualité souhaitée et les trier.",
+        desc: "Interface de récupération de feed perso afin d'être à jour dans l'actualité souhaitée.",
         tags: ["React", "Interactivité", "Personnel"],
         link: "https://feedly-reader.vercel.app/",
         placeholder: "Lecteur de Feed"
@@ -154,7 +154,7 @@ export const projects = [
     },
     {
         title: "Formulaire Médical",
-        desc: "Solution de gestion de patients réalisée chez ElémentRoot avec Symfony. Architecture MVC stricte.",
+        desc: "Solution de gestion de patients réalisée chez ElémentRoot avec Symfony.",
         tags: ["Symfony", "Sécurité", "Stage"],
         link: "https://github.com/GARNIER-Emmanuel/form_dentiste_symfony.git",
         placeholder: "Projet Symfony"

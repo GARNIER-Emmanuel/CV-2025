@@ -29,7 +29,7 @@ if (container && experiences) {
                 </div>
 
                 <!-- Header -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-5 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                     <div>
                         <h3 class="text-2xl font-bold text-white group-hover:text-sky-400 transition-colors tracking-wide">
                             ${exp.role}

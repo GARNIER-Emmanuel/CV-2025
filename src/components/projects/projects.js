@@ -16,7 +16,7 @@ if (projectsContainer && projects) {
                     <div class="absolute inset-0 bg-sky-500/10 translate-y-full group-hover:translate-y-[-100%] transition-transform duration-[1.5s] z-0"></div>
                     
                     <span class="text-slate-600 font-mono text-xl group-hover:text-white transition-colors relative z-10 flex items-center gap-2">
-                        <i data-lucide="monitor" class="w-6 h-6 text-sky-600"></i> ${project.placeholder}
+                        <i data-lucide="monitor" class="w-5 h-5 text-sky-600"></i> ${project.placeholder}
                     </span>
                 </div>
                 <div class="p-8">
