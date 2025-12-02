@@ -17,7 +17,7 @@ export const profileData = {
         je conçois des applications back-end et web rigoureuses tout en explorant des projets créatifs. 
         Curieux et autonome, j'aime apprendre et j'expérimente ce que j'apprends sur mes projets personnels comme professionnel.
         Passionné par l'informatique de la plus petite technologie humaine aux plus grandes créations de l'espace,
-        je suis curieux de toute les nouveautés technologiques concernant l'IA, ou autre technique interréssante et innnovante.
+        je suis curieux de toutes les nouveautés technologiques concernant l'IA, ou autre technique intéressante et innovante.
         `
 };
 
@@ -81,7 +81,7 @@ export const experiences = [
         company: "Intermarché",
         period: "2022 - 2023",
         location: "Pau",
-        desc: "Travaille à temps partiel à Intermarché les week-ends.",
+        desc: "Travail à temps partiel à Intermarché les week-ends.",
         tags: ["Aisance relationnelle / sens du contact", "Gestion des stocks", "Gestion des clients", "Gestion des paiements"]
     },
     {
@@ -90,7 +90,7 @@ export const experiences = [
         period: "2017",
         location: "Bordeaux",
         desc: "Découverte du métier de boucher à la Boucherie Favin Clément.",
-        tags: ["Découverte du métier", "gestion clientèle"]
+        tags: ["Découverte du métier", "Gestion clientèle"]
     },
     {
         role: "Voyage scolaire",
@@ -140,7 +140,7 @@ export const projects = [
     },
     {
         title: "Feedly Reader",
-        desc: "Interface de récupération de feed perso afin d'être à jour dans l'actualité souhaité et les trier.",
+        desc: "Interface de récupération de feed perso afin d'être à jour dans l'actualité souhaitée et les trier.",
         tags: ["React", "Interactivité", "Personnel"],
         link: "https://feedly-reader.vercel.app/",
         placeholder: "Lecteur de Feed"
@@ -154,8 +154,8 @@ export const projects = [
     },
     {
         title: "Formulaire Médical",
-        desc: "Solution de gestion patients réalisée chez ElémentRoot avec Symfony. Architecture MVC stricte.",
-        tags: ["Symfony", "Securité", "Stage"],
+        desc: "Solution de gestion de patients réalisée chez ElémentRoot avec Symfony. Architecture MVC stricte.",
+        tags: ["Symfony", "Sécurité", "Stage"],
         link: "https://github.com/GARNIER-Emmanuel/form_dentiste_symfony.git",
         placeholder: "Projet Symfony"
     },
