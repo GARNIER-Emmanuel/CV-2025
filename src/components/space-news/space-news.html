@@ -1,0 +1,24 @@
+<section id="space-news" class="py-20 relative overflow-hidden bg-slate-900/30">
+    <div class="container mx-auto px-6 relative z-10">
+        <h2 class="section-title">
+            <i data-lucide="rocket" class="text-orange-500"></i> Actualités Spatiales
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Cosmonaute illustration -->
+            <div class="flex flex-col items-center justify-center text-center">
+                <div class="text-9xl mb-4">🧑‍🚀</div>
+                <h3 class="text-xl font-bold text-white mb-2">Mission Update</h3>
+                <p class="text-slate-400 text-sm">Dernières avancées de la conquête spatiale</p>
+            </div>
+
+            <!-- News feed -->
+            <div class="md:col-span-2 space-y-4" id="space-news-container">
+                <div class="text-center text-slate-500">
+                    <i data-lucide="loader" class="w-8 h-8 mx-auto mb-2 animate-spin"></i>
+                    <p>Chargement des actualités spatiales...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="module" src="src/components/space-news/space-news.js"></script>

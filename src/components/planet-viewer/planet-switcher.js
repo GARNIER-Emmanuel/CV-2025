@@ -1,8 +1,11 @@
 // ===== SYSTÈME DE CHANGEMENT DE PLANÈTE =====
+import { planetData } from './planet-data.js';
+import { earthMaterial, planet, textureLoader } from './planet.js';
 
 let currentPlanet = 'earth';
 
-// Configuration des planètes
+// Configuration des planètes (simplifiée car on a déjà planetData, mais ici c'est pour les textures 3D)
+// On pourrait fusionner avec planetData, mais gardons la structure existante pour la 3D
 const planets = {
     sun: {
         name: 'Soleil',
@@ -92,32 +95,24 @@ function switchPlanet(planetName) {
 
     console.log(`Changement vers ${config.name}...`);
 
-    // Vérifier que les variables globales sont disponibles
-    if (typeof window.textureLoader === 'undefined' ||
-        typeof window.earthMaterial === 'undefined' ||
-        typeof window.planet === 'undefined') {
-        console.error('Les variables Three.js ne sont pas disponibles');
-        return;
-    }
-
     // Charger la nouvelle texture
     if (config.texture === 'procedural') {
         // Créer directement une texture procédurale selon le type
         console.log('🎨 Création de texture procédurale pour', config.name);
         const proceduralTexture = createPlanetTexture(config.type);
-        window.earthMaterial.map = proceduralTexture;
-        window.earthMaterial.color = new THREE.Color(0xffffff);
-        window.earthMaterial.needsUpdate = true;
+        earthMaterial.map = proceduralTexture;
+        earthMaterial.color = new THREE.Color(0xffffff);
+        earthMaterial.needsUpdate = true;
     } else {
         // Charger depuis une URL
-        const newTexture = window.textureLoader.load(
+        const newTexture = textureLoader.load(
             config.texture,
             // onLoad
             function (texture) {
                 console.log('✅ Texture chargée avec succès:', config.name);
-                window.earthMaterial.map = texture;
-                window.earthMaterial.color = new THREE.Color(0xffffff);
-                window.earthMaterial.needsUpdate = true;
+                earthMaterial.map = texture;
+                earthMaterial.color = new THREE.Color(0xffffff);
+                earthMaterial.needsUpdate = true;
             },
             // onProgress
             undefined,
@@ -128,45 +123,41 @@ function switchPlanet(planetName) {
 
                 // Fallback : Texture procédurale
                 const proceduralTexture = createPlanetTexture(config.type);
-                window.earthMaterial.map = proceduralTexture;
-                window.earthMaterial.bumpMap = null;
-                window.earthMaterial.specularMap = null;
-                window.earthMaterial.color = new THREE.Color(0xffffff);
-                window.earthMaterial.needsUpdate = true;
+                earthMaterial.map = proceduralTexture;
+                earthMaterial.bumpMap = null;
+                earthMaterial.specularMap = null;
+                earthMaterial.color = new THREE.Color(0xffffff);
+                earthMaterial.needsUpdate = true;
             }
         );
 
         // Mettre à jour le matériau immédiatement avec la texture en cours de chargement
-        // Note : Si le chargement échoue, le onError écrasera ceci
-        window.earthMaterial.map = newTexture;
-        window.earthMaterial.color = new THREE.Color(0xffffff);
+        earthMaterial.map = newTexture;
+        earthMaterial.color = new THREE.Color(0xffffff);
     }
 
     if (config.bumpMap) {
-        // On ne charge la bump map que si on a pas déjà échoué (difficile à savoir ici en asynchrone)
-        // Mais Three.js gère bien les chargements multiples.
-        // Si la texture principale échoue plus tard, le onError ci-dessus nettoiera tout.
-        const newBump = window.textureLoader.load(config.bumpMap);
-        window.earthMaterial.bumpMap = newBump;
-        window.earthMaterial.bumpScale = 0.05;
+        const newBump = textureLoader.load(config.bumpMap);
+        earthMaterial.bumpMap = newBump;
+        earthMaterial.bumpScale = 0.05;
     } else {
-        window.earthMaterial.bumpMap = null;
+        earthMaterial.bumpMap = null;
     }
 
     if (config.hasSpecular && config.specularMap) {
-        const newSpecular = window.textureLoader.load(config.specularMap);
-        window.earthMaterial.specularMap = newSpecular;
-        window.earthMaterial.specular = new THREE.Color(0x333333);
+        const newSpecular = textureLoader.load(config.specularMap);
+        earthMaterial.specularMap = newSpecular;
+        earthMaterial.specular = new THREE.Color(0x333333);
     } else {
-        window.earthMaterial.specularMap = null;
-        window.earthMaterial.specular = new THREE.Color(0x000000);
+        earthMaterial.specularMap = null;
+        earthMaterial.specular = new THREE.Color(0x000000);
     }
 
-    window.earthMaterial.needsUpdate = true;
+    earthMaterial.needsUpdate = true;
 
     // Ajuster la taille de la planète
     const scale = config.radius / 1.5; // 1.5 est la taille de base
-    window.planet.scale.set(scale, scale, scale);
+    planet.scale.set(scale, scale, scale);
 
     // Gérer les anneaux (Saturne et Uranus)
     if (config.hasRings) {
@@ -477,12 +468,12 @@ function addPlanetRings(planetType) {
     planetRings.rotation.x = rotationX;
     planetRings.rotation.z = rotationZ;
 
-    window.planet.add(planetRings);
+    planet.add(planetRings);
 }
 
 function removePlanetRings() {
     if (planetRings) {
-        window.planet.remove(planetRings);
+        planet.remove(planetRings);
         planetRings.geometry.dispose();
         planetRings.material.dispose();
         planetRings = null;
@@ -490,11 +481,11 @@ function removePlanetRings() {
 }
 
 // Gestion du menu burger
-document.addEventListener('DOMContentLoaded', () => {
-    const burger = document.getElementById('planet-burger');
-    const menu = document.getElementById('planet-menu');
-    const planetButtons = document.querySelectorAll('.planet-btn');
+const burger = document.getElementById('planet-burger');
+const menu = document.getElementById('planet-menu');
+const planetButtons = document.querySelectorAll('.planet-btn');
 
+if (burger && menu) {
     // Toggle menu
     burger.addEventListener('click', () => {
         menu.classList.toggle('hidden');
@@ -523,39 +514,41 @@ document.addEventListener('DOMContentLoaded', () => {
             menu.classList.add('hidden');
         });
     });
+}
 
-    // Gestion du bouton Info
-    const infoBtn = document.getElementById('planet-info-btn');
-    const infoModal = document.getElementById('planet-info-modal');
+// Gestion du bouton Info
+const infoBtn = document.getElementById('planet-info-btn');
+const infoModal = document.getElementById('planet-info-modal');
 
-    // Éléments du modal
-    const infoEmoji = document.getElementById('info-emoji');
-    const infoTitle = document.getElementById('info-title');
-    const infoSummary = document.getElementById('info-summary');
-    const infoHistory = document.getElementById('info-history');
+// Éléments du modal
+const infoEmoji = document.getElementById('info-emoji');
+const infoTitle = document.getElementById('info-title');
+const infoSummary = document.getElementById('info-summary');
+const infoHistory = document.getElementById('info-history');
 
-    // Nouveaux champs
-    const infoType = document.getElementById('info-type');
-    const infoDiameter = document.getElementById('info-diameter');
-    const infoDistance = document.getElementById('info-distance');
-    const infoTemp = document.getElementById('info-temp');
+// Nouveaux champs
+const infoType = document.getElementById('info-type');
+const infoDiameter = document.getElementById('info-diameter');
+const infoDistance = document.getElementById('info-distance');
+const infoTemp = document.getElementById('info-temp');
 
-    function updateInfoModal(planetName) {
-        const data = planetData[planetName];
-        if (!data) return;
+function updateInfoModal(planetName) {
+    const data = planetData[planetName];
+    if (!data) return;
 
-        infoEmoji.textContent = data.emoji;
-        infoTitle.textContent = data.title;
-        infoSummary.textContent = data.summary;
-        infoHistory.textContent = data.history;
+    if (infoEmoji) infoEmoji.textContent = data.emoji;
+    if (infoTitle) infoTitle.textContent = data.title;
+    if (infoSummary) infoSummary.textContent = data.summary;
+    if (infoHistory) infoHistory.textContent = data.history;
 
-        // Mise à jour des données techniques
-        if (infoType) infoType.textContent = data.type;
-        if (infoDiameter) infoDiameter.textContent = data.diameter;
-        if (infoDistance) infoDistance.textContent = data.distance;
-        if (infoTemp) infoTemp.textContent = data.temp;
-    }
+    // Mise à jour des données techniques
+    if (infoType) infoType.textContent = data.type;
+    if (infoDiameter) infoDiameter.textContent = data.diameter;
+    if (infoDistance) infoDistance.textContent = data.distance;
+    if (infoTemp) infoTemp.textContent = data.temp;
+}
 
+if (infoBtn && infoModal) {
     infoBtn.addEventListener('click', () => {
         // Mettre à jour les infos avant d'afficher
         updateInfoModal(currentPlanet);
@@ -586,40 +579,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
-    // Hook dans switchPlanet pour mettre à jour le modal s'il est ouvert
-    const originalSwitchPlanet = window.switchPlanet;
-});
-
-// Modification de la fonction switchPlanet pour mettre à jour le modal
-const originalSwitchPlanetLogic = switchPlanet;
-switchPlanet = function (planetName) {
-    originalSwitchPlanetLogic(planetName);
-
-    // Mettre à jour le modal si les éléments existent (chargés)
-    const infoModal = document.getElementById('planet-info-modal');
-    if (infoModal && !infoModal.classList.contains('hidden')) {
-        const infoEmoji = document.getElementById('info-emoji');
-        const infoTitle = document.getElementById('info-title');
-        const infoSummary = document.getElementById('info-summary');
-        const infoHistory = document.getElementById('info-history');
-
-        const infoType = document.getElementById('info-type');
-        const infoDiameter = document.getElementById('info-diameter');
-        const infoDistance = document.getElementById('info-distance');
-        const infoTemp = document.getElementById('info-temp');
-
-        const data = planetData[planetName];
-        if (data) {
-            infoEmoji.textContent = data.emoji;
-            infoTitle.textContent = data.title;
-            infoSummary.textContent = data.summary;
-            infoHistory.textContent = data.history;
-
-            if (infoType) infoType.textContent = data.type;
-            if (infoDiameter) infoDiameter.textContent = data.diameter;
-            if (infoDistance) infoDistance.textContent = data.distance;
-            if (infoTemp) infoTemp.textContent = data.temp;
-        }
-    }
-};
+}

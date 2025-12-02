@@ -30,10 +30,7 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const geometry = new THREE.SphereGeometry(1.5, 64, 64);
 
 // Textures de la Terre (NASA)
-const textureLoader = new THREE.TextureLoader();
-
-// Exposer le textureLoader globalement pour planet-switcher.js
-window.textureLoader = textureLoader;
+export const textureLoader = new THREE.TextureLoader();
 
 // Texture principale (continents et océans)
 const earthTexture = textureLoader.load(
@@ -51,7 +48,7 @@ const specularTexture = textureLoader.load(
 );
 
 // Matériau Terre avec textures
-const earthMaterial = new THREE.MeshPhongMaterial({
+export const earthMaterial = new THREE.MeshPhongMaterial({
     map: earthTexture,
     bumpMap: bumpTexture,
     bumpScale: 0.05,
@@ -62,14 +59,11 @@ const earthMaterial = new THREE.MeshPhongMaterial({
     opacity: 1
 });
 
-const planet = new THREE.Mesh(geometry, earthMaterial);
+export const planet = new THREE.Mesh(geometry, earthMaterial);
 // Position initiale de la Terre (à droite sur desktop)
 planet.position.set(2, 0, 0);
+planet.renderOrder = 1; // Rendre la planète après les étoiles (premier plan)
 scene.add(planet);
-
-// Exposer les variables globalement pour planet-switcher.js
-window.earthMaterial = earthMaterial;
-window.planet = planet;
 
 // ===== LUMIÈRES =====
 
@@ -108,6 +102,7 @@ starsGeometry.setAttribute(
 );
 
 const stars = new THREE.Points(starsGeometry, starsMaterial);
+stars.renderOrder = 0; // Rendre les étoiles en premier (arrière-plan)
 scene.add(stars);
 
 // ===== GESTION DU SCROLL =====
@@ -134,44 +129,46 @@ const mouse = new THREE.Vector2();
 const interactionZone = document.getElementById('planet-interaction-zone');
 
 // Détecter si la souris est sur la zone de la planète
-interactionZone.addEventListener('mousemove', (event) => {
-    // Normaliser les coordonnées de -1 à 1 pour le raycaster
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+if (interactionZone) {
+    interactionZone.addEventListener('mousemove', (event) => {
+        // Normaliser les coordonnées de -1 à 1 pour le raycaster
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-    // Vérifier si la souris est sur la planète
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObject(planet);
+        // Vérifier si la souris est sur la planète
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObject(planet);
 
-    if (intersects.length > 0) {
-        // La souris est sur la planète
-        interactionZone.style.cursor = 'pointer';
+        if (intersects.length > 0) {
+            // La souris est sur la planète
+            interactionZone.style.cursor = 'pointer';
 
-        // Calculer le delta (différence de mouvement) au survol
-        const deltaX = event.clientX - previousMouseX;
-        const deltaY = event.clientY - previousMouseY;
+            // Calculer le delta (différence de mouvement) au survol
+            const deltaX = event.clientX - previousMouseX;
+            const deltaY = event.clientY - previousMouseY;
 
-        // Si la souris bouge, changer la vitesse de rotation (sensibilité réduite)
-        if (deltaX !== 0 || deltaY !== 0) {
-            rotationVelocityY = deltaX * 0.001; // Mouvement horizontal → rotation Y
-            rotationVelocityX = deltaY * 0.001; // Mouvement vertical → rotation X (sans inversion)
+            // Si la souris bouge, changer la vitesse de rotation (sensibilité réduite)
+            if (deltaX !== 0 || deltaY !== 0) {
+                rotationVelocityY = deltaX * 0.001; // Mouvement horizontal → rotation Y
+                rotationVelocityX = deltaY * 0.001; // Mouvement vertical → rotation X (sans inversion)
+            }
+
+            isHovering = true;
+            previousMouseX = event.clientX;
+            previousMouseY = event.clientY;
+        } else {
+            // La souris n'est pas sur la planète
+            interactionZone.style.cursor = 'default';
+            isHovering = false;
         }
+    });
 
-        isHovering = true;
-        previousMouseX = event.clientX;
-        previousMouseY = event.clientY;
-    } else {
-        // La souris n'est pas sur la planète
-        interactionZone.style.cursor = 'default';
+    // Détecter quand la souris quitte la zone
+    interactionZone.addEventListener('mouseleave', () => {
         isHovering = false;
-    }
-});
-
-// Détecter quand la souris quitte la zone
-interactionZone.addEventListener('mouseleave', () => {
-    isHovering = false;
-    interactionZone.style.cursor = 'default';
-});
+        interactionZone.style.cursor = 'default';
+    });
+}
 
 // ===== ANIMATION =====
 
@@ -208,8 +205,8 @@ function animate() {
         // Position Z : s'éloigner (reculer dans la profondeur)
         planet.position.z = scrollProgress * 4; // 0 → 4
 
-        // Opacité : disparaît progressivement en fin de scroll
-        earthMaterial.opacity = 1 - (scrollProgress * 0.7); // 1 → 0.3
+        // Opacité : reste opaque jusqu'à 95% du scroll, puis disparaît
+        earthMaterial.opacity = scrollProgress < 0.95 ? 1 : 1 - ((scrollProgress - 0.95) * 20); // Opaque jusqu'à 95%, puis fade rapide
 
         // Échelle : légèrement plus petite en s'éloignant
         const scale = 1 - (scrollProgress * 0.2); // 1 → 0.8

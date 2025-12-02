@@ -4,9 +4,9 @@
 */
 
 // 1. Informations Globales
-const profileData = {
+export const profileData = {
     // Calcul automatique de l'âge
-    age: new Date().getFullYear() - 2002, 
+    age: new Date().getFullYear() - 2002,
     jobTitle: "Développeur Junior & Master Full Stack",
     location: "Bordeaux, France",
     email: "manu.boidun@gmail.com",
@@ -20,25 +20,25 @@ const profileData = {
 };
 
 // 2. Liste des Compétences (Avec pourcentages pour les jauges)
-const skills = [
+export const skills = [
     // Frontend
     { name: 'React.js', percent: 85, color: 'bg-blue-400', text: 'text-blue-400' },
     { name: 'Tailwind CSS', percent: 90, color: 'bg-sky-300', text: 'text-sky-300' },
     { name: 'Angular', percent: 60, color: 'bg-red-500', text: 'text-red-500' },
     { name: 'Symfony / PHP', percent: 70, color: 'bg-indigo-400', text: 'text-indigo-400' },
-    
+
     // Backend
     { name: 'Java (POO)', percent: 80, color: 'bg-orange-500', text: 'text-orange-500' },
     { name: 'Node.js', percent: 65, color: 'bg-green-500', text: 'text-green-500' },
     { name: 'SQL', percent: 75, color: 'bg-blue-300', text: 'text-blue-300' },
-    
+
     // DevOps
     { name: 'Docker', percent: 50, color: 'bg-blue-600', text: 'text-blue-600' }
 ];
 
 
 // 3. Parcours & Expériences (Timeline)
-const experiences = [
+export const experiences = [
     {
         role: "Développeur Junior (Alternance)",
         company: "CGI",
@@ -62,13 +62,38 @@ const experiences = [
         location: "Pau",
         desc: "Programmation complète d'un jeu web (énigmes en ligne) en HTML, CSS et PHP pour un Escape Game.",
         tags: ["HTML/CSS", "PHP", "Game Dev"]
+    },
+    {
+        role: "Caissier",
+        company: "Intermarché",
+        period: "2022 - 2023",
+        location: "Pau",
+        desc: "Travaille à temps partiel à Intermarché les week-ends.",
+        tags: ["Aisance relationnelle / sens du contact", "Gestion des stocks", "Gestion des clients", "Gestion des paiements"]
+    },
+    {
+        role: "Stagiaire boucher",
+        company: "Boucherie Favin Clément",
+        period: "2017",
+        location: "Bordeaux",
+        desc: "Découverte du métier de boucher à la Boucherie Favin Clément.",
+        tags: ["Découverte du métier", "gestion clientèle"]
+    },
+    {
+        role: "Voyage scolaire",
+        company: "Collège Canterane",
+        period: "2016",
+        location: "Bordeaux",
+        desc: "Voyage scolaire en Italie avec option Latin en 2016.",
+        tags: ["Voyage scolaire", "Latin"]
     }
+
 ];
 
 // 4. Formations (Diplômes)
-const education = [
+export const education = [
     {
-        degree: "Master 1 - Dév Full Stack",
+        degree: "Master 2 - Dév Full Stack",
         school: "Sup de Vinci, Bordeaux",
         year: "Depuis 2024"
     },
@@ -92,13 +117,13 @@ const education = [
 
 // 5. Projets (Mix CV + Projets Persos)
 // Note : J'ai gardé tes projets persos (Cacgino) car ils sont plus visuels pour un portfolio que des missions confidentielles CGI.
-const projects = [
+export const projects = [
     {
         title: "Cacgino (Web Game)",
         desc: "Jeu multijoueur temps réel. Side-project personnel utilisant React et les WebSockets.",
         tags: ["React", "Node.js", "Perso"],
         link: "#",
-        placeholder: "Cacgino" 
+        placeholder: "Cacgino"
     },
     {
         title: "Formulaire Médical",

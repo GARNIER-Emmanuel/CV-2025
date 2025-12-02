@@ -1,10 +1,11 @@
 // ===== ACTUALITÉS SPATIALES =====
 
 // API de Space News (gratuite, pas de clé nécessaire)
-const SPACE_NEWS_API = 'https://api.spaceflightnewsapi.net/v4/articles/?limit=5';
+const SPACE_NEWS_API = 'https://api.spaceflightnewsapi.net/v4/articles/?limit=3';
 
 async function fetchSpaceNews() {
     const container = document.getElementById('space-news-container');
+    if (!container) return;
 
     try {
         const response = await fetch(SPACE_NEWS_API);
@@ -23,6 +24,7 @@ async function fetchSpaceNews() {
 
 function displayNews(articles) {
     const container = document.getElementById('space-news-container');
+    if (!container) return;
 
     const newsHTML = articles.map(article => {
         const date = new Date(article.published_at);
@@ -85,25 +87,31 @@ function displayNews(articles) {
 
 function showError(message) {
     const container = document.getElementById('space-news-container');
+    if (!container) return;
+
     container.innerHTML = `
         <div class="text-center text-slate-500 py-8">
             <i data-lucide="alert-circle" class="w-12 h-12 mx-auto mb-4"></i>
             <p>${message}</p>
-            <button onclick="fetchSpaceNews()" class="mt-4 px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded text-white text-sm">
+            <button id="retry-news-btn" class="mt-4 px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded text-white text-sm">
                 Réessayer
             </button>
         </div>
     `;
+
+    // Add event listener for retry button
+    const retryBtn = document.getElementById('retry-news-btn');
+    if (retryBtn) {
+        retryBtn.addEventListener('click', fetchSpaceNews);
+    }
 
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
     }
 }
 
-// Charger les actualités au chargement de la page
-document.addEventListener('DOMContentLoaded', () => {
-    fetchSpaceNews();
+// Charger les actualités immédiatement
+fetchSpaceNews();
 
-    // Rafraîchir toutes les 5 minutes
-    setInterval(fetchSpaceNews, 5 * 60 * 1000);
-});
+// Rafraîchir toutes les 5 minutes
+setInterval(fetchSpaceNews, 5 * 60 * 1000);
