@@ -13,27 +13,41 @@ export const profileData = {
     phone: "06 61 74 29 19",
     availability: "Disponible pour Alternance",
     bio: `
-        Actuellement en <strong>Master 1 Développement Full Stack</strong> à Sup de Vinci (Bordeaux) et en alternance chez CGI. 
-        Je combine une solide base académique (BTS SIO, Bachelor CESI) avec une expérience terrain en développement Java et Web.
-        Passionné par l'architecture logicielle (MVC, DAO) et la rigueur du code, j'applique la même précision dans mes projets personnels que dans mes commits.
-    `
+        Actuellement en Master 1 Développement Full Stack à Sup de Vinci (Bordeaux) et en alternance chez CGI, 
+        je conçois des applications back-end et web rigoureuses tout en explorant des projets créatifs. 
+        Curieux et autonome, je ne me contente pas d'utiliser les technos que je connais, 
+        j'apprends constamment de nouvelles stacks et j'expérimente des architectures modernes.
+        Passionné par l'informatique de la plus petite technologie humaine aux plus grandes créations de l'espace, 
+        j'applique la même exigence dans mes projets professionnels que dans mes side-projects, 
+        où je soigne autant l'expérience utilisateur que la structure technique. 
+        Mon objectif : livrer du code propre, scalable, et qui raconte une histoire.`
 };
 
 // 2. Liste des Compétences (Avec pourcentages pour les jauges)
 export const skills = [
     // Frontend
+    { name: 'JavaScript', percent: 90, color: 'bg-yellow-400', text: 'text-yellow-400' },
     { name: 'React.js', percent: 85, color: 'bg-blue-400', text: 'text-blue-400' },
+    { name: 'Angular', percent: 70, color: 'bg-red-500', text: 'text-red-500' },
     { name: 'Tailwind CSS', percent: 90, color: 'bg-sky-300', text: 'text-sky-300' },
-    { name: 'Angular', percent: 60, color: 'bg-red-500', text: 'text-red-500' },
-    { name: 'Symfony / PHP', percent: 70, color: 'bg-indigo-400', text: 'text-indigo-400' },
+    { name: 'HTML/CSS', percent: 95, color: 'bg-orange-400', text: 'text-orange-400' },
 
     // Backend
-    { name: 'Java (POO)', percent: 80, color: 'bg-orange-500', text: 'text-orange-500' },
-    { name: 'Node.js', percent: 65, color: 'bg-green-500', text: 'text-green-500' },
-    { name: 'SQL', percent: 75, color: 'bg-blue-300', text: 'text-blue-300' },
+    { name: 'Java (POO)', percent: 85, color: 'bg-orange-600', text: 'text-orange-600' },
+    { name: 'Python', percent: 75, color: 'bg-blue-500', text: 'text-blue-500' },
+    { name: 'PHP/Symfony', percent: 75, color: 'bg-indigo-400', text: 'text-indigo-400' },
 
-    // DevOps
-    { name: 'Docker', percent: 50, color: 'bg-blue-600', text: 'text-blue-600' }
+    // Bases de données
+    { name: 'SQL (MySQL/PostgreSQL)', percent: 80, color: 'bg-blue-300', text: 'text-blue-300' },
+    { name: 'MongoDB', percent: 65, color: 'bg-green-500', text: 'text-green-500' },
+
+    // DevOps & Outils
+    { name: 'Docker', percent: 70, color: 'bg-blue-600', text: 'text-blue-600' },
+    { name: 'Git', percent: 85, color: 'bg-orange-500', text: 'text-orange-500' },
+
+    // Architecture & Méthodes
+    { name: 'MVC/DAO', percent: 80, color: 'bg-purple-500', text: 'text-purple-500' },
+    { name: 'UML/MERISE', percent: 75, color: 'bg-pink-500', text: 'text-pink-500' }
 ];
 
 
@@ -133,10 +147,50 @@ export const projects = [
         placeholder: "Projet Symfony"
     },
     {
-        title: "Escape Game Web",
-        desc: "Interface d'énigmes interactive réalisée pour Madness Escape Game.",
+        title: "Feedly Reader",
+        desc: "Interface de récupération de feed perso afin d'être à jour dans l'actualité souhaité et les trier.",
         tags: ["PHP", "Interactivité", "Stage"],
         link: "#",
-        placeholder: "Escape Game"
+        placeholder: "Lecteur de Feed"
+    },
+    {
+        title: "Budget Tracker",
+        desc: "Interface de calcul de revenue/dépense pour gérer son argent.",
+        tags: ["PHP", "Interactivité", "Stage"],
+        link: "#",
+        placeholder: "Gestion monétaire"
+    }
+];
+//6 interesting
+export const interests = [
+    {
+        icon: "🚀",
+        title: "Espace & Aérospatial",
+        description: "Passionné par SpaceX, ArianeGroup et les défis technologiques de la conquête martienne."
+    },
+    {
+        icon: "🎧",
+        title: "Production Musicale",
+        description: "Artiste Rap/Pop sur Cubase : composition, enregistrement et ingénierie du son (Mix/Master)."
+    },
+    {
+        icon: "💻",
+        title: "Développement Full Stack",
+        description: "Veille active sur l'écosystème React/Node et les architectures logicielles modernes."
+    },
+    {
+        icon: "🎮",
+        title: "Gaming & Game Dev",
+        description: "Amateur de RPGs (Elden Ring) et créateur d'expériences web ludiques et interactives."
+    },
+    {
+        icon: "🎨",
+        title: "UI/UX & Design",
+        description: "Conception d'interfaces immersives avec une esthétique soignée et futuriste."
+    },
+    {
+        icon: "🧠",
+        title: "Philosophie & Culture",
+        description: "Curiosité pour la philosophie, l'amélioration de l'anglais et la réflexion critique."
     }
 ];

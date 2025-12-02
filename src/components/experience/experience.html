@@ -1,11 +1,30 @@
-<section id="experience" class="py-20 bg-slate-950 border-t border-slate-900">
-    <div class="container mx-auto px-6">
-        <h2 class="section-title">
-            <i data-lucide="briefcase" class="text-blue-500"></i> Parcours Pro
+<section id="experience" class="relative py-20 bg-slate-950 overflow-hidden">
+    <!-- Effet Nébuleuse en arrière-plan -->
+    <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none">
+    </div>
+    <div
+        class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-sky-500/5 rounded-full blur-[100px] pointer-events-none">
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+        <!-- Titre "Mission Log" style spatial -->
+        <h2 class="section-title mb-16 text-center md:text-left">
+            <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-600 text-3xl font-bold flex items-center gap-3 justify-center md:justify-start">
+                <i data-lucide="rocket" class="text-sky-400 w-8 h-8"></i>
+                Expérience Pro
+            </span>
         </h2>
-        <!-- Container vide qui sera rempli par le JS -->
-        <div id="experience-container" class="space-y-8 relative border-l-2 border-slate-800 ml-3 pl-8 py-2">
-            <!-- Timeline injectée ici -->
+
+        <!-- Container Timeline (avec ligne gradient) -->
+        <div id="experience-container" class="space-y-12 relative ml-4 md:ml-10 pl-8 md:pl-12 py-2">
+            <!-- Ligne de trajectoire gradient (overlay) -->
+            <div
+                class="absolute top-0 bottom-0 left-0 w-[2px] bg-gradient-to-b from-sky-500 via-blue-600 to-transparent">
+            </div>
+
+            <!-- Les cartes d'expérience seront injectées ici par JS -->
         </div>
     </div>
 </section>
