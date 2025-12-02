@@ -87,9 +87,9 @@ const starsMaterial = new THREE.PointsMaterial({
     transparent: true
 });
 
-// Créer 5000 étoiles aléatoires
+// Créer 1500 étoiles pour de meilleures performances (réduit de 5000)
 const starsVertices = [];
-for (let i = 0; i < 5000; i++) {
+for (let i = 0; i < 1500; i++) {
     const x = (Math.random() - 0.5) * 100;
     const y = (Math.random() - 0.5) * 100;
     const z = (Math.random() - 0.5) * 100;
@@ -223,8 +223,20 @@ export function triggerWarpTransition(onMidpoint) {
     }, WARP_DURATION);
 }
 
+let isTabActive = true;
+
+// Pause animation when tab is inactive to save CPU/GPU
+document.addEventListener('visibilitychange', () => {
+    isTabActive = !document.hidden;
+});
+
 function animate() {
     requestAnimationFrame(animate);
+
+    // Skip rendering if tab is not active (save CPU/GPU)
+    if (!isTabActive && !isWarping) {
+        return;
+    }
 
     // Appliquer la rotation avec la vitesse actuelle
     planet.rotation.y += rotationVelocityY;

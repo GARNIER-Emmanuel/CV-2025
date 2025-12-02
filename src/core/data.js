@@ -134,28 +134,28 @@ export const projects = [
     {
         title: "Cacgino (Web Game)",
         desc: "Jeu multijoueur. Project personnel utilisant React et les WebSockets.",
-        tags: ["React", "Node.js", "Perso"],
+        tags: ["React", "Node.js", "Personnel"],
         link: "https://cacgino-frontend.onrender.com/index.html",
         placeholder: "Cacgino"
     },
     {
         title: "Feedly Reader",
         desc: "Interface de récupération de feed perso afin d'être à jour dans l'actualité souhaité et les trier.",
-        tags: ["PHP", "Interactivité", "Stage"],
+        tags: ["PHP", "Interactivité", "Personnel"],
         link: "https://feedly-reader.vercel.app/",
         placeholder: "Lecteur de Feed"
     },
     {
         title: "Budget Tracker",
         desc: "Interface de calcul de revenue/dépense pour gérer son argent.",
-        tags: ["PHP", "Interactivité", "Stage"],
+        tags: ["PHP", "Interactivité", "Personnel"],
         link: "https://budget-tracker-iota-weld.vercel.app/",
         placeholder: "Gestion monétaire"
     },
     {
         title: "Formulaire Médical",
         desc: "Solution de gestion patients réalisée chez ElémentRoot avec Symfony. Architecture MVC stricte.",
-        tags: ["Symfony", "Securité", "Pro"],
+        tags: ["Symfony", "Securité", "Stage"],
         link: "https://github.com/GARNIER-Emmanuel/form_dentiste_symfony.git",
         placeholder: "Projet Symfony"
     },
