@@ -141,14 +141,14 @@ export const projects = [
     {
         title: "Feedly Reader",
         desc: "Interface de récupération de feed perso afin d'être à jour dans l'actualité souhaité et les trier.",
-        tags: ["PHP", "Interactivité", "Personnel"],
+        tags: ["React", "Interactivité", "Personnel"],
         link: "https://feedly-reader.vercel.app/",
         placeholder: "Lecteur de Feed"
     },
     {
         title: "Budget Tracker",
         desc: "Interface de calcul de revenue/dépense pour gérer son argent.",
-        tags: ["PHP", "Interactivité", "Personnel"],
+        tags: ["React", "Interactivité", "Personnel"],
         link: "https://budget-tracker-iota-weld.vercel.app/",
         placeholder: "Gestion monétaire"
     },
