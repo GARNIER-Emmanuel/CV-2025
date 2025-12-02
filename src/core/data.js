@@ -141,7 +141,7 @@ export const projects = [
     {
         title: "Feedly Reader",
         desc: "Interface de récupération de feed perso afin d'être à jour dans l'actualité souhaitée.",
-        tags: ["React", "Interactivité", "Personnel"],
+        tags: ["React", "Vite", "Interactivité", "Personnel"],
         link: "https://feedly-reader.vercel.app/",
         placeholder: "Lecteur de Feed"
     },
