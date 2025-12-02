@@ -4,7 +4,7 @@
  */
 export async function loadComponents() {
     const elements = document.querySelectorAll('[data-include]');
-    
+
     for (const element of elements) {
         const file = element.getAttribute('data-include');
         try {
@@ -12,14 +12,28 @@ export async function loadComponents() {
             if (!response.ok) throw new Error(`Could not load ${file}`);
             const content = await response.text();
             element.innerHTML = content;
-            
+
+
             // Execute scripts in the injected content
             const scripts = element.querySelectorAll('script');
             scripts.forEach(oldScript => {
                 const newScript = document.createElement('script');
-                Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-                oldScript.parentNode.replaceChild(newScript, oldScript);
+
+                // Copy attributes
+                Array.from(oldScript.attributes).forEach(attr => {
+                    newScript.setAttribute(attr.name, attr.value);
+                });
+
+                // Copy content safely
+                const scriptContent = oldScript.textContent || oldScript.innerHTML;
+                if (scriptContent && scriptContent.trim()) {
+                    newScript.textContent = scriptContent;
+                }
+
+                // Replace in DOM
+                if (oldScript.parentNode) {
+                    oldScript.parentNode.replaceChild(newScript, oldScript);
+                }
             });
 
             // Dispatch event to notify that component is loaded
@@ -36,7 +50,7 @@ export async function loadComponents() {
 // Auto-load on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', async () => {
     await loadComponents();
-    
+
     // Importer le script du loader après le chargement des composants
     import('../components/loader/loader.js');
 });
