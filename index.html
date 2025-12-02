@@ -6,8 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emmanuel Garnier Boidun | Full-Stack Developer</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Préconnexion aux CDN pour accélérer le chargement -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Google Fonts optimisées -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet"></noscript>
 
     <!-- Tailwind CSS (CDN pour dev rapide) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,17 +33,20 @@
     <!-- Ton CSS Custom -->
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <!-- Icônes -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Icônes (defer pour chargement non-bloquant) -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
 
-    <!-- Three.js (Global) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Three.js (Global, defer pour chargement non-bloquant) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 
     <!-- Core Loader -->
     <script type="module" src="src/core/loader.js"></script>
 </head>
 
 <body class="bg-slate-950 text-slate-200 overflow-x-hidden">
+
+    <!-- Loader de page avec fusée -->
+    <div data-include="src/components/loader/loader.html"></div>
 
     <!-- Components -->
     <div data-include="src/components/planet-viewer/planet-viewer.html"></div>

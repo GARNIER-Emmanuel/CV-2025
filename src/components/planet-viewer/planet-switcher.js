@@ -1,6 +1,6 @@
 // ===== SYSTÈME DE CHANGEMENT DE PLANÈTE =====
 import { planetData } from './planet-data.js';
-import { earthMaterial, planet, textureLoader } from './planet.js';
+import { earthMaterial, planet, textureLoader, triggerWarpTransition } from './planet.js';
 
 let currentPlanet = 'earth';
 
@@ -95,78 +95,77 @@ function switchPlanet(planetName) {
 
     console.log(`Changement vers ${config.name}...`);
 
-    // Charger la nouvelle texture
-    if (config.texture === 'procedural') {
-        // Créer directement une texture procédurale selon le type
-        console.log('🎨 Création de texture procédurale pour', config.name);
-        const proceduralTexture = createPlanetTexture(config.type);
-        earthMaterial.map = proceduralTexture;
-        earthMaterial.color = new THREE.Color(0xffffff);
+    // Déclencher l'animation Warp
+    triggerWarpTransition(() => {
+        // Logique de changement de texture (exécutée au milieu du warp)
+        if (config.texture === 'procedural') {
+            // Créer directement une texture procédurale selon le type
+            console.log('🎨 Création de texture procédurale pour', config.name);
+            const proceduralTexture = createPlanetTexture(config.type);
+            earthMaterial.map = proceduralTexture;
+            earthMaterial.color = new THREE.Color(0xffffff);
+            earthMaterial.needsUpdate = true;
+        } else {
+            // Charger depuis une URL
+            const newTexture = textureLoader.load(
+                config.texture,
+                // onLoad
+                function (texture) {
+                    console.log('✅ Texture chargée avec succès:', config.name);
+                    earthMaterial.map = texture;
+                    earthMaterial.color = new THREE.Color(0xffffff);
+                    earthMaterial.needsUpdate = true;
+                },
+                // onProgress
+                undefined,
+                // onError
+                function (error) {
+                    console.error('❌ Erreur de chargement de texture pour', config.name, error);
+                    console.log('⚠️ Utilisation de la texture procédurale de secours');
+
+                    // Fallback : Texture procédurale
+                    const proceduralTexture = createPlanetTexture(config.type);
+                    earthMaterial.map = proceduralTexture;
+                    earthMaterial.bumpMap = null;
+                    earthMaterial.specularMap = null;
+                    earthMaterial.color = new THREE.Color(0xffffff);
+                    earthMaterial.needsUpdate = true;
+                }
+            );
+
+            // Mettre à jour le matériau immédiatement avec la texture en cours de chargement
+            earthMaterial.map = newTexture;
+            earthMaterial.color = new THREE.Color(0xffffff);
+        }
+
+        if (config.bumpMap) {
+            const newBump = textureLoader.load(config.bumpMap);
+            earthMaterial.bumpMap = newBump;
+            earthMaterial.bumpScale = 0.05;
+        } else {
+            earthMaterial.bumpMap = null;
+        }
+
+        if (config.hasSpecular && config.specularMap) {
+            const newSpecular = textureLoader.load(config.specularMap);
+            earthMaterial.specularMap = newSpecular;
+            earthMaterial.specular = new THREE.Color(0x333333);
+        } else {
+            earthMaterial.specularMap = null;
+            earthMaterial.specular = new THREE.Color(0x000000);
+        }
+
         earthMaterial.needsUpdate = true;
-    } else {
-        // Charger depuis une URL
-        const newTexture = textureLoader.load(
-            config.texture,
-            // onLoad
-            function (texture) {
-                console.log('✅ Texture chargée avec succès:', config.name);
-                earthMaterial.map = texture;
-                earthMaterial.color = new THREE.Color(0xffffff);
-                earthMaterial.needsUpdate = true;
-            },
-            // onProgress
-            undefined,
-            // onError
-            function (error) {
-                console.error('❌ Erreur de chargement de texture pour', config.name, error);
-                console.log('⚠️ Utilisation de la texture procédurale de secours');
 
-                // Fallback : Texture procédurale
-                const proceduralTexture = createPlanetTexture(config.type);
-                earthMaterial.map = proceduralTexture;
-                earthMaterial.bumpMap = null;
-                earthMaterial.specularMap = null;
-                earthMaterial.color = new THREE.Color(0xffffff);
-                earthMaterial.needsUpdate = true;
-            }
-        );
+        // Gérer les anneaux (Saturne et Uranus)
+        if (config.hasRings) {
+            addPlanetRings(planetName);
+        } else {
+            removePlanetRings();
+        }
 
-        // Mettre à jour le matériau immédiatement avec la texture en cours de chargement
-        earthMaterial.map = newTexture;
-        earthMaterial.color = new THREE.Color(0xffffff);
-    }
-
-    if (config.bumpMap) {
-        const newBump = textureLoader.load(config.bumpMap);
-        earthMaterial.bumpMap = newBump;
-        earthMaterial.bumpScale = 0.05;
-    } else {
-        earthMaterial.bumpMap = null;
-    }
-
-    if (config.hasSpecular && config.specularMap) {
-        const newSpecular = textureLoader.load(config.specularMap);
-        earthMaterial.specularMap = newSpecular;
-        earthMaterial.specular = new THREE.Color(0x333333);
-    } else {
-        earthMaterial.specularMap = null;
-        earthMaterial.specular = new THREE.Color(0x000000);
-    }
-
-    earthMaterial.needsUpdate = true;
-
-    // Ajuster la taille de la planète
-    const scale = config.radius / 1.5; // 1.5 est la taille de base
-    planet.scale.set(scale, scale, scale);
-
-    // Gérer les anneaux (Saturne et Uranus)
-    if (config.hasRings) {
-        addPlanetRings(planetName);
-    } else {
-        removePlanetRings();
-    }
-
-    currentPlanet = planetName;
+        currentPlanet = planetName;
+    });
 }
 
 // Fonction universelle pour créer des textures procédurales

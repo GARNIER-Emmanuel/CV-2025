@@ -172,6 +172,57 @@ if (interactionZone) {
 
 // ===== ANIMATION =====
 
+// ===== ANIMATION =====
+
+let isWarping = false;
+let warpSpeed = 0;
+let warpPhase = 'idle'; // idle, accelerating, decelerating
+let warpStartTime = 0;
+const WARP_DURATION = 2000; // ms
+
+export function triggerWarpTransition(onMidpoint) {
+    if (isWarping) return;
+    isWarping = true;
+    warpPhase = 'accelerating';
+    warpStartTime = Date.now();
+
+    // Phase 1: Accélération et Zoom Out
+    const accelerateInterval = setInterval(() => {
+        warpSpeed += 0.5;
+        if (warpSpeed >= 20) warpSpeed = 20;
+    }, 20);
+
+    // Animation du FOV caméra pour effet de vitesse
+    const initialFov = camera.fov;
+    const targetFov = 120;
+
+    // Zoom out planète
+    const initialScale = planet.scale.x;
+
+    // Midpoint (1s)
+    setTimeout(() => {
+        if (onMidpoint) onMidpoint();
+        warpPhase = 'decelerating';
+
+        // Reset planète position/scale pour l'arrivée
+        planet.scale.set(0.1, 0.1, 0.1);
+
+    }, WARP_DURATION / 2);
+
+    // Fin (2s)
+    setTimeout(() => {
+        clearInterval(accelerateInterval);
+        isWarping = false;
+        warpPhase = 'idle';
+        warpSpeed = 0;
+        camera.fov = initialFov;
+        camera.updateProjectionMatrix();
+
+        // S'assurer que la planète est à la bonne taille
+        planet.scale.set(initialScale, initialScale, initialScale);
+    }, WARP_DURATION);
+}
+
 function animate() {
     requestAnimationFrame(animate);
 
@@ -190,14 +241,39 @@ function animate() {
         }
     }
 
-    // Les étoiles tournent très lentement
-    stars.rotation.y += 0.0001;
+    // Gestion de l'effet Warp
+    if (isWarping) {
+        // Bouger les étoiles vers la caméra
+        const positions = stars.geometry.attributes.position.array;
+        for (let i = 2; i < positions.length; i += 3) {
+            positions[i] += warpSpeed;
+            if (positions[i] > 50) {
+                positions[i] = -50;
+            }
+        }
+        stars.geometry.attributes.position.needsUpdate = true;
+
+        // Effets visuels durant le warp
+        if (warpPhase === 'accelerating') {
+            camera.fov += (100 - camera.fov) * 0.05;
+            planet.scale.multiplyScalar(0.9); // La planète s'éloigne/rétrécit
+        } else if (warpPhase === 'decelerating') {
+            camera.fov += (75 - camera.fov) * 0.05;
+            planet.scale.multiplyScalar(1.1); // La nouvelle planète grandit
+            if (planet.scale.x > 1) planet.scale.set(1, 1, 1);
+        }
+        camera.updateProjectionMatrix();
+
+    } else {
+        // Les étoiles tournent très lentement en temps normal
+        stars.rotation.y += 0.0001;
+    }
 
     // ===== EFFET DE SCROLL =====
 
     const screenWidth = window.innerWidth;
 
-    if (screenWidth > 768) {
+    if (screenWidth > 768 && !isWarping) {
         // TERRE : défile vers la gauche et s'éloigne progressivement
         // Position X : de droite (2) vers gauche (-3)
         planet.position.x = 2 - (scrollProgress * 5); // 2 → -3
@@ -211,7 +287,7 @@ function animate() {
         // Échelle : légèrement plus petite en s'éloignant
         const scale = 1 - (scrollProgress * 0.2); // 1 → 0.8
         planet.scale.set(scale, scale, scale);
-    } else {
+    } else if (!isWarping) {
         // Sur mobile : garder centré sans effet de scroll
         planet.position.set(0, 0, 0);
         earthMaterial.opacity = 1;

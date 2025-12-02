@@ -17,10 +17,12 @@ export const profileData = {
         je conçois des applications back-end et web rigoureuses tout en explorant des projets créatifs. 
         Curieux et autonome, je ne me contente pas d'utiliser les technos que je connais, 
         j'apprends constamment de nouvelles stacks et j'expérimente des architectures modernes.
-        Passionné par l'informatique de la plus petite technologie humaine aux plus grandes créations de l'espace, 
+        Passionné par l'informatique de la plus petite technologie humaine aux plus grandes créations de l'espace,
+        je suis curieux de toute les nouveautés technologiques concernant l'IA, ou autre technique interréssante et innnovante.
         j'applique la même exigence dans mes projets professionnels que dans mes side-projects, 
         où je soigne autant l'expérience utilisateur que la structure technique. 
-        Mon objectif : livrer du code propre, scalable, et qui raconte une histoire.`
+        Mon objectif : livrer du code propre, scalable, et qui raconte une histoire.
+        `
 };
 
 // 2. Liste des Compétences (Avec pourcentages pour les jauges)
@@ -134,31 +136,38 @@ export const education = [
 export const projects = [
     {
         title: "Cacgino (Web Game)",
-        desc: "Jeu multijoueur temps réel. Side-project personnel utilisant React et les WebSockets.",
+        desc: "Jeu multijoueur. Project personnel utilisant React et les WebSockets.",
         tags: ["React", "Node.js", "Perso"],
-        link: "#",
+        link: "https://cacgino-frontend.onrender.com/index.html",
         placeholder: "Cacgino"
-    },
-    {
-        title: "Formulaire Médical",
-        desc: "Solution de gestion patients réalisée chez ElémentRoot avec Symfony. Architecture MVC stricte.",
-        tags: ["Symfony", "Securité", "Pro"],
-        link: "#",
-        placeholder: "Projet Symfony"
     },
     {
         title: "Feedly Reader",
         desc: "Interface de récupération de feed perso afin d'être à jour dans l'actualité souhaité et les trier.",
         tags: ["PHP", "Interactivité", "Stage"],
-        link: "#",
+        link: "https://feedly-reader.vercel.app/",
         placeholder: "Lecteur de Feed"
     },
     {
         title: "Budget Tracker",
         desc: "Interface de calcul de revenue/dépense pour gérer son argent.",
         tags: ["PHP", "Interactivité", "Stage"],
-        link: "#",
+        link: "https://budget-tracker-iota-weld.vercel.app/",
         placeholder: "Gestion monétaire"
+    },
+    {
+        title: "Formulaire Médical",
+        desc: "Solution de gestion patients réalisée chez ElémentRoot avec Symfony. Architecture MVC stricte.",
+        tags: ["Symfony", "Securité", "Pro"],
+        link: "https://github.com/GARNIER-Emmanuel/form_dentiste_symfony.git",
+        placeholder: "Projet Symfony"
+    },
+    {
+        title: "Autres projets",
+        desc: "Pour plus de projets personnels et professionnels, consultez mon GitHub.",
+        tags: ["Perso", "Pro"],
+        link: "https://github.com/GARNIER-Emmanuel?tab=repositories",
+        placeholder: "GIT HUB"
     }
 ];
 //6 interesting
@@ -171,7 +180,7 @@ export const interests = [
     {
         icon: "🎧",
         title: "Production Musicale",
-        description: "Artiste Rap/Pop sur Cubase : composition, enregistrement et ingénierie du son (Mix/Master)."
+        description: "\"Artiste\" expérimental passionné sur Cubase : composition, enregistrement et ingénierie du son (Mix/Master)."
     },
     {
         icon: "💻",
@@ -180,13 +189,13 @@ export const interests = [
     },
     {
         icon: "🎮",
-        title: "Gaming & Game Dev",
-        description: "Amateur de RPGs (Elden Ring) et créateur d'expériences web ludiques et interactives."
+        title: "Gaming & Cinéma",
+        description: "Amateur de RPGs et cinémas j'aime découvrir le cinéma en globalité, les films qui poussent à la réflexion et qui ne laisse aucun détails au hasard."
     },
     {
         icon: "🎨",
         title: "UI/UX & Design",
-        description: "Conception d'interfaces immersives avec une esthétique soignée et futuriste."
+        description: "Conception d'interfaces immersives avec une esthétique soignée et/ou expérimentale abstraite :)."
     },
     {
         icon: "🧠",

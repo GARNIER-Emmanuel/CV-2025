@@ -1,0 +1,128 @@
+<div id="page-loader" class="fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 transition-opacity duration-1000">
+    <!-- Étoiles en arrière-plan -->
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
+    <!-- Container fusée -->
+    <div class="relative flex flex-col items-center gap-8">
+        <!-- Fusée réaliste professionnelle -->
+        <div id="rocket" class="relative transition-all duration-1000">
+            <svg class="w-40 h-40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Ogive (pointe) -->
+                <path d="M100 10 L85 50 L115 50 Z" fill="url(#grad1)" stroke="#1e40af" stroke-width="1.5"/>
+                
+                <!-- Corps principal -->
+                <rect x="85" y="50" width="30" height="80" fill="url(#grad2)" stroke="#1e40af" stroke-width="1.5" rx="2"/>
+                
+                <!-- Hublots -->
+                <circle cx="100" cy="70" r="6" fill="#0ea5e9" opacity="0.8" stroke="#38bdf8" stroke-width="1"/>
+                <circle cx="100" cy="90" r="6" fill="#0ea5e9" opacity="0.8" stroke="#38bdf8" stroke-width="1"/>
+                <circle cx="100" cy="110" r="6" fill="#0ea5e9" opacity="0.8" stroke="#38bdf8" stroke-width="1"/>
+                
+                <!-- Ailerons gauche -->
+                <path d="M85 100 L55 130 L85 130 Z" fill="url(#grad3)" stroke="#1e40af" stroke-width="1.5"/>
+                
+                <!-- Ailerons droit -->
+                <path d="M115 100 L145 130 L115 130 Z" fill="url(#grad3)" stroke="#1e40af" stroke-width="1.5"/>
+                
+                <!-- Base -->
+                <rect x="90" y="130" width="20" height="10" fill="#1e3a8a" stroke="#1e40af" stroke-width="1.5" rx="1"/>
+                
+                <!-- Détails métalliques -->
+                <line x1="85" y1="60" x2="115" y2="60" stroke="#60a5fa" stroke-width="0.5" opacity="0.5"/>
+                <line x1="85" y1="80" x2="115" y2="80" stroke="#60a5fa" stroke-width="0.5" opacity="0.5"/>
+                <line x1="85" y1="100" x2="115" y2="100" stroke="#60a5fa" stroke-width="0.5" opacity="0.5"/>
+                <line x1="85" y1="120" x2="115" y2="120" stroke="#60a5fa" stroke-width="0.5" opacity="0.5"/>
+                
+                <!-- Dégradés -->
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#ef4444;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#dc2626;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#dbeafe;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#93c5fd;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#dbeafe;stop-opacity:1" />
+                    </linearGradient>
+                    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            
+            <!-- Flammes réalistes -->
+            <div id="flames" class="absolute left-1/2 -translate-x-1/2 top-[140px] flex gap-1.5 justify-center">
+                <div class="w-3 h-12 bg-gradient-to-b from-yellow-300 via-orange-500 to-red-600 rounded-full animate-pulse opacity-90"></div>
+                <div class="w-4 h-16 bg-gradient-to-b from-yellow-200 via-orange-400 to-red-500 rounded-full animate-pulse opacity-95" style="animation-delay: 0.15s;"></div>
+                <div class="w-3 h-14 bg-gradient-to-b from-yellow-300 via-orange-500 to-red-600 rounded-full animate-pulse opacity-90" style="animation-delay: 0.3s;"></div>
+            </div>
+        </div>
+
+        <!-- Texte de chargement -->
+        <div class="text-center space-y-2">
+            <p class="text-sky-400 text-xl font-bold tracking-wider">PRÉPARATION AU DÉCOLLAGE</p>
+            <div class="flex items-center justify-center gap-1">
+                <div class="w-2 h-2 bg-sky-400 rounded-full animate-bounce"></div>
+                <div class="w-2 h-2 bg-sky-400 rounded-full animate-bounce" style="animation-delay: 0.1s;"></div>
+                <div class="w-2 h-2 bg-sky-400 rounded-full animate-bounce" style="animation-delay: 0.2s;"></div>
+            </div>
+        </div>
+
+        <!-- Barre de progression -->
+        <div class="w-64 h-1 bg-slate-800 rounded-full overflow-hidden">
+            <div id="progress-bar" class="h-full bg-gradient-to-r from-sky-500 to-blue-600 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Étoiles scintillantes */
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: white;
+        border-radius: 50%;
+        animation: twinkle 2s infinite;
+    }
+    
+    .star:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+    .star:nth-child(2) { top: 30%; left: 60%; animation-delay: 0.5s; }
+    .star:nth-child(3) { top: 60%; left: 30%; animation-delay: 1s; }
+    .star:nth-child(4) { top: 80%; left: 70%; animation-delay: 1.5s; }
+    .star:nth-child(5) { top: 20%; left: 80%; animation-delay: 0.8s; }
+    .star:nth-child(6) { top: 50%; left: 10%; animation-delay: 0.3s; }
+    .star:nth-child(7) { top: 40%; left: 85%; animation-delay: 1.2s; }
+    .star:nth-child(8) { top: 70%; left: 50%; animation-delay: 0.7s; }
+    .star:nth-child(9) { top: 15%; left: 45%; animation-delay: 1.4s; }
+    .star:nth-child(10) { top: 85%; left: 25%; animation-delay: 0.9s; }
+    
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+    }
+
+    /* Animation de décollage */
+    .rocket-launch {
+        transform: translateY(-100vh) scale(0.5);
+        opacity: 0;
+    }
+
+    /* Cache le loader */
+    .loader-hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+</style>

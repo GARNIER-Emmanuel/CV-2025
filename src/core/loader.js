@@ -34,4 +34,9 @@ export async function loadComponents() {
 }
 
 // Auto-load on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', loadComponents);
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadComponents();
+    
+    // Importer le script du loader après le chargement des composants
+    import('../components/loader/loader.js');
+});
